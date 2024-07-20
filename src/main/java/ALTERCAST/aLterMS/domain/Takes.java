@@ -27,8 +27,4 @@ public class Takes extends BaseEntity{
 
     @Column(name = "tot_cred")
     private int totCred;
-
-    @OneToMany(mappedBy = "takes", cascade = CascadeType.REMOVE)
-    @Builder.Default
-    private List<Assignment> assignments = new ArrayList<>();
 }

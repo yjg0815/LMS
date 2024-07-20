@@ -34,14 +34,14 @@ public class Assignment extends BaseEntity{
     // 과제 제출 여부
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "takes_id")
-    private Takes takes;
+    @JoinColumn(name = "sec_id")
+    private Section section;
 
-    public void setTakes(Takes takes) {
-        if (this.takes != null) {
-            takes.getAssignments().remove(this);
+    public void setSection(Section section) {
+        if (this.section != null) {
+            this.section.getAssignments().remove(this);
         }
-        this.takes = takes;
-        takes.getAssignments().add(this);
+        this.section = section;
+        section.getAssignments().add(this);
     }
 }

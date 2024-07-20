@@ -39,4 +39,8 @@ public class Section extends BaseEntity {
     @OneToMany(mappedBy = "section", cascade = CascadeType.REMOVE)
     @Builder.Default
     private List<Notification> notifications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.REMOVE)
+    @Builder.Default
+    private List<Assignment> assignments = new ArrayList<>();
 }
