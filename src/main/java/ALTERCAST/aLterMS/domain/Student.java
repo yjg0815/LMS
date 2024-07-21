@@ -16,9 +16,6 @@ public class Student extends BaseEntity{
 
     private String name;
 
-    @Column(name = "stu_id")
-    private String stuId;
-
     @Column(name = "user_id")
     private String userId;
 
