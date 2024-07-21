@@ -4,6 +4,7 @@ import ALTERCAST.aLterMS.apiPayLoad.ApiResponse;
 import ALTERCAST.aLterMS.apiPayLoad.code.ErrorReasonDTO;
 import ALTERCAST.aLterMS.apiPayLoad.code.status.ErrorStatus;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +31,7 @@ public class ExceptionAdvice extends ResponseEntityExceptionHandler {
     @org.springframework.web.bind.annotation.ExceptionHandler
     public ResponseEntity<Object> validation(ConstraintViolationException e, WebRequest request) {
         String errorMessage = e.getConstraintViolations().stream()
-                .map(constraintViolation -> constraintViolation.getMessage())
+                .map(ConstraintViolation::getMessage)
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("ConstraintViolationException 추출 도중 에러 발생"));
 
