@@ -29,9 +29,6 @@ public class Learning extends BaseEntity {
     private String time;
     // 재생 시간인데, 프론트에서 처리하는건지 잘 모르겠다.
 
-    private boolean state;
-    // 학습 완료 했는지.
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id")
     private Section section;

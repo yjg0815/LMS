@@ -27,12 +27,6 @@ public class Assignment extends BaseEntity{
     private int point;
     //해당 과제 배점
 
-    private int score;
-    // 받은 점수
-
-    private boolean state;
-    // 과제 제출 여부
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sec_id")
     private Section section;
