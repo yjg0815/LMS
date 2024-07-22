@@ -15,10 +15,27 @@ public class StudentRequestDTO {
 
         @NotBlank
         @Size(min = 5, max = 10)
-        String userId;
+        String stuId;
 
         @NotBlank
-        @Size(min = 5, max = 12)
+        @Size(min = 5)
+        String password;
+
+        String email;
+        String phone;
+        String deptName;
+    }
+
+    @Getter
+    public static class UpdateInfoDto {
+
+        @Size(min = 1, max = 6)
+        String name;
+
+        @Size(min = 5, max = 10)
+        String stuId;
+
+        @Size(min = 5)
         String password;
 
         String email;

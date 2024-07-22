@@ -19,9 +19,6 @@ public class Instructor extends BaseEntity{
     @Column(name = "inst_id")
     private String instId;
 
-    @Column(name = "user_id")
-    private String userId;
-
     private String password;
 
     private String email;

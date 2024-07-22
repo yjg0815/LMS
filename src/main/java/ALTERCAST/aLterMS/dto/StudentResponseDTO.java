@@ -11,9 +11,24 @@ public class StudentResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class JoinResultDTO{
+    public static class RegisterResultDTO {
         Long Id;
-        String userId;
+        String stuId;
         String name;
     }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class StuInfoResultDTO{
+        Long Id;
+        String stuId;
+        String password;
+        String name;
+        String email;
+        String phone;
+        String deptName;
+    }
+
 }

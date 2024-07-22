@@ -9,7 +9,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -57,7 +56,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         // User 생성
-        Optional<Student> user = studentRepository.findByUserId(userId);
+        Optional<Student> user = studentRepository.findByStuId(userId);
         if (user.isEmpty()) {
             // User를 찾을 수 없는 경우 인증 없이 넘어감
             System.out.println("JWTAuthFilter : cannot find user " + userId);
