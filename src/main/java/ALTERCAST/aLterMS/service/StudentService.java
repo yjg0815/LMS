@@ -18,8 +18,9 @@ public class StudentService {
 
     @Transactional
     public Student joinStudent(StudentRequestDTO.JoinDto request) {
-        if (request.getUserId().equals("test")) {
-            throw new TempHandler(ErrorStatus.NOT_USER_ID);
+        if (studentRepository.findByUserId(request.getUserId()).isPresent()) {
+            throw new TempHandler(ErrorStatus.ALREADY_EXIST_ID);
+            // 이미 중복된 userId 존재
         }
         Student student = StudentConverter.toStudent(request);
         return studentRepository.save(student);

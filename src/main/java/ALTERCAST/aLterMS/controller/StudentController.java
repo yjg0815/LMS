@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,15 +26,19 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @PostMapping("/")
+    @PostMapping("/join")
     @Operation(summary = "학생 회원가입", description = "아이디, 이름, Long id 반환")
     @ApiResponses({
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH200", description = "OK"),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "TEST4001", description = "test",content = @Content(schema = @Schema(implementation = ApiResponse.class)))
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH201", description = "회원가입 성공"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "STUDENT4001", description = "아이디 중복",content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+
     })
     @Parameter(name = "StudentRequestDTO.JoinDto", description = "회원 가입 요청 객체")
-    public ApiResponse<StudentResponseDTO.JoinResultDTO> join(@RequestBody StudentRequestDTO.JoinDto request) {
+    public ApiResponse<StudentResponseDTO.JoinResultDTO> join(@Valid @RequestBody StudentRequestDTO.JoinDto request) {
         Student student = studentService.joinStudent(request);
         return ApiResponse.of(SuccessStatus._CREATED, StudentConverter.toJoinResultDTO(student));
     }
+
+    // 로그인은 로그인 필터 통해서 자동으로 권한 확인
+
 }
