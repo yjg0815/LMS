@@ -83,12 +83,7 @@ public class UserService {
             List<GrantedAuthority> auths = usersection.getRole().getGrantedAuthorities().stream().toList();
             for (GrantedAuthority g : auths) {
                 // 각 PRIVILEGE를 PRIVILEGE_TO_SECTION_{ID} 형태로 만들어 반환한다
-                authorities.add(new GrantedAuthority() {
-                    @Override
-                    public String getAuthority() {
-                        return g.getAuthority() + "_TO_SECTION_" + usersection.getSection().getId();
-                    }
-                });
+                authorities.add((GrantedAuthority) () -> g.getAuthority() + "_TO_SECTION_" + usersection.getSection().getId());
             }
         }
         return authorities;

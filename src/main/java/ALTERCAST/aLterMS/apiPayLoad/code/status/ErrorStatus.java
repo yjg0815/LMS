@@ -38,8 +38,8 @@ public enum ErrorStatus implements BaseErrorCode {
     TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
 
     //Student
-    ALREADY_EXIST_ID(HttpStatus.BAD_REQUEST, "STU4001", "이미 존재하는 아이디 입니다."),
-    NOT_EXIST_USER(HttpStatus.NOT_FOUND, "STU4002", "존재하지 않는 회원입니다.")
+    ALREADY_EXIST_ID(HttpStatus.BAD_REQUEST, "USER4001", "이미 존재하는 아이디 입니다."),
+    NOT_EXIST_USER(HttpStatus.NOT_FOUND, "USER4002", "존재하지 않는 회원입니다.")
     ;
 
 

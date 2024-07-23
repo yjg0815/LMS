@@ -29,7 +29,7 @@ public class UserController {
     @Operation(summary = "회원가입", description = "아이디, 이름, Long id 반환")
     @ApiResponses({
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "AUTH201", description = "회원가입 성공"),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "STUDENT4001", description = "아이디 중복", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "USER4001", description = "아이디 중복", content = @Content(schema = @Schema(implementation = ApiResponse.class))),
 
     })
     public ApiResponse<UserResponseDTO.RegisterResultDTO> join(@Valid @RequestBody UserRequestDTO.JoinDto request) {

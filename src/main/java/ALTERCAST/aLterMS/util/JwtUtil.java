@@ -14,7 +14,7 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String ACCOUNT_ID = "accountId";
+    private static final String USER_ID = "userId";
     private static final String IS_ADMIN = "isAdmin";
     private static final int MINUTES_TO_MILLISECONDS = 60 * 1000;
 
@@ -30,7 +30,7 @@ public class JwtUtil {
     public String createToken(final String accountId, final boolean isAdmin) {
         Date now = new Date();
         return Jwts.builder()
-                .claim(ACCOUNT_ID, accountId)
+                .claim(USER_ID, accountId)
                 .claim(IS_ADMIN, isAdmin)
                 .issuedAt(now)
                 .expiration(new Date(now.getTime() + expirationMinutes * MINUTES_TO_MILLISECONDS))
@@ -45,9 +45,9 @@ public class JwtUtil {
                     .build()
                     .parseSignedClaims(token)
                     .getPayload();
-            final String accountId = payload.get(ACCOUNT_ID, String.class);
+            final String userId = payload.get(USER_ID, String.class);
             final Boolean isAdmin = payload.get(IS_ADMIN, Boolean.class);
-            return new AccessAccount(accountId, isAdmin);
+            return new AccessAccount(userId, isAdmin);
         } catch (ExpiredJwtException e) {
             throw new IllegalArgumentException("만료된 토큰입니다");
         }

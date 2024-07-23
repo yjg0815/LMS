@@ -49,7 +49,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // username 획득
         String userId = "";
         try {
-            userId = jwtUtil.extractAccountData(token).getAccountId();
+            userId = jwtUtil.extractAccountData(token).getUserId();
         } catch (Exception e) {
             // 토큰 만료, 파싱 에러 등의 경우 인증 없이 넘어감
             System.out.println("JWTAuthFilter : error parsing token " + e.getMessage());

@@ -43,14 +43,14 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                 BufferedReader br = request.getReader();
                 String jsonString = br.lines().collect(Collectors.joining(System.lineSeparator()));
                 Map<String, String> jsonRequest = new ObjectMapper().readValue(jsonString, Map.class);
-                id = jsonRequest.get("accountId");
+                id = jsonRequest.get("userId");
                 password = jsonRequest.get("password");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         } else {
             // form으로 요청한 경우 -> 파라미터에서 꺼낸다
-            id = request.getParameter("accountId");
+            id = request.getParameter("userId");
             password = request.getParameter("password");
         }
         System.out.println("LoginFilter: id : '" + id + "' password : '" + password + "'"); // test
