@@ -1,7 +1,6 @@
 package ALTERCAST.aLterMS.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.*;
 
 @Entity
@@ -9,16 +8,16 @@ import lombok.*;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-public class Student extends BaseEntity{
-
+@Table(name = "`user`")
+public class User extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
-    @Column(name = "stu_id")
-    private String stuId;
+    @Column(name = "user_id")
+    private String userId;
 
     private String password;
 
@@ -29,11 +28,11 @@ public class Student extends BaseEntity{
     @Column(name = "dept_name")
     private String deptName;
 
-    public void update(String name, String stuId, String password, String email, String phone, String deptName) {
+    public void update(String name, String userId, String password, String email, String phone, String deptName) {
         if (name != null && !name.isBlank())
             this.name = name;
-        if (stuId != null && !stuId.isBlank())
-            this.stuId = stuId;
+        if (userId != null && !userId.isBlank())
+            this.userId = userId;
         if (password != null && !password.isBlank())
             this.password = password;
         if (email != null && !email.isBlank())

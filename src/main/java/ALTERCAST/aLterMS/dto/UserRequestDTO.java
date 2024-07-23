@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-public class StudentRequestDTO {
+public class UserRequestDTO {
 
     @Getter
     public static class JoinDto {
@@ -15,7 +15,7 @@ public class StudentRequestDTO {
 
         @NotBlank
         @Size(min = 5, max = 10)
-        String stuId;
+        String userId;
 
         @NotBlank
         @Size(min = 5)
@@ -27,13 +27,20 @@ public class StudentRequestDTO {
     }
 
     @Getter
+    public static class loginDto {
+
+        String userId;
+        String password;
+    }
+
+    @Getter
     public static class UpdateInfoDto {
 
         @Size(min = 1, max = 6)
         String name;
 
         @Size(min = 5, max = 10)
-        String stuId;
+        String userId;
 
         @Size(min = 5)
         String password;

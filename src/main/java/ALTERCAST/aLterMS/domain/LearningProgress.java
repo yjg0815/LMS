@@ -21,6 +21,6 @@ public class LearningProgress extends BaseEntity {
     private Learning learning;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "takes_id")
-    private Takes takes;
+    @JoinColumn(name = "user_section_id")
+    private UserSection userSection;
 }

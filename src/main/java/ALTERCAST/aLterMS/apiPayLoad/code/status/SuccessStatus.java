@@ -21,9 +21,9 @@ public enum SuccessStatus implements BaseCode {
 //    POST_GET_DETAIL(HttpStatus.OK, "POST200", "단일 게시글 조회가 성공하였습니다."),
 
     // 학생 요청 관련 응답
-    GET_STU_INFO(HttpStatus.OK, "STU2001", "학생 정보 조회 완료"),
-    UPDATE_STU_INFO(HttpStatus.OK, "STU2002", "학생 정보 수정 완료"),
-    DELETE_STU_INFO(HttpStatus.OK, "STU2003", "학생 탈퇴 완료")
+    GET_USER_INFO(HttpStatus.OK, "STU2001", "학생 정보 조회 완료"),
+    UPDATE_USER_INFO(HttpStatus.OK, "STU2002", "학생 정보 수정 완료"),
+    DELETE_USER_INFO(HttpStatus.OK, "STU2003", "학생 탈퇴 완료")
 
     ;
 

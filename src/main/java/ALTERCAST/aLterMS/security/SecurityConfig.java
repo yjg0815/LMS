@@ -1,7 +1,8 @@
 package ALTERCAST.aLterMS.security;
 
-import ALTERCAST.aLterMS.repository.StudentRepository;
-import ALTERCAST.aLterMS.service.StudentService;
+import ALTERCAST.aLterMS.repository.UserRepository;
+import ALTERCAST.aLterMS.repository.UserSectionRepository;
+import ALTERCAST.aLterMS.service.UserService;
 import ALTERCAST.aLterMS.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 /**
  * Spring Security 설정 클래스
  */
@@ -31,8 +34,9 @@ import java.util.Arrays;
 public class SecurityConfig {
     private final AuthenticationConfiguration configuration;
     private final JwtUtil jwtUtil;
-    private final StudentRepository studentRepository;
-    private final StudentService studentService;
+    private final UserRepository userRepository;
+    private final UserService userService;
+    private final UserSectionRepository userSectionRepository;
 
     @Bean
     public AuthenticationManager authenticationManager() throws Exception {
@@ -43,7 +47,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000")); // 허용할 도메인 설정
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:$[port}")); // 허용할 도메인 설정
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS")); // 허용할 HTTP 메서드 설정
         configuration.setAllowedHeaders(Arrays.asList("*")); // 허용할 헤더 설정
         configuration.setAllowCredentials(true); // 자격 증명 허용 여부 설정
@@ -61,12 +65,25 @@ public class SecurityConfig {
             throws Exception {
         LoginFilter loginFilter = new LoginFilter(authenticationManager(), jwtUtil);
         loginFilter.setFilterProcessesUrl("/users/login");
-        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtil,studentRepository, studentService);
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtil, userRepository, userService, userSectionRepository);
 
         // 접근 권한 설정
-        http.authorizeHttpRequests((authorizedHttpRequests) -> authorizedHttpRequests
-                .anyRequest().permitAll()
-        );
+//        http.authorizeHttpRequests((authorizedHttpRequests) -> authorizedHttpRequests
+//                .anyRequest().permitAll()
+//        );
+        http
+                .cors(withDefaults())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**")
+                        .permitAll()
+                        .requestMatchers("/users/join","/users/login","/auth/**", "/oauth2/**")
+                        .permitAll()
+                        .requestMatchers("/", "/error", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
+                        .permitAll()
+                        .anyRequest()
+                        .authenticated());
+
         // 필터 등록
         http
                 .addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class) // UsernamePasswordAuthenticationFilter 자리에 LoginFilter 등록

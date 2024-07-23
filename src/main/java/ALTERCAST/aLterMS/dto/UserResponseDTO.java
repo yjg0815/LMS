@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-public class StudentResponseDTO {
+public class UserResponseDTO {
 
     @Builder
     @Getter
@@ -13,7 +13,7 @@ public class StudentResponseDTO {
     @AllArgsConstructor
     public static class RegisterResultDTO {
         Long Id;
-        String stuId;
+        String userId;
         String name;
     }
 
@@ -21,9 +21,9 @@ public class StudentResponseDTO {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class StuInfoResultDTO{
+    public static class UserInfoResultDTO {
         Long Id;
-        String stuId;
+        String userId;
         String password;
         String name;
         String email;
