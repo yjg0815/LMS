@@ -4,11 +4,11 @@ import ALTERCAST.aLterMS.apiPayLoad.ApiResponse;
 import ALTERCAST.aLterMS.apiPayLoad.code.status.SuccessStatus;
 import ALTERCAST.aLterMS.converter.UserConverter;
 import ALTERCAST.aLterMS.domain.User;
+import ALTERCAST.aLterMS.domain.UserSection;
 import ALTERCAST.aLterMS.dto.UserRequestDTO;
 import ALTERCAST.aLterMS.dto.UserResponseDTO;
 import ALTERCAST.aLterMS.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,6 +16,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -38,6 +40,7 @@ public class UserController {
     }
 
     // 로그인은 로그인 필터 통해서 자동으로 권한 확인
+
     /**
      * login filter 거쳐서 로그인 됨 (여기는 도달할 필요 없음)
      */
@@ -50,7 +53,7 @@ public class UserController {
     //학생 정보 조회
     @GetMapping("/{userId}")
     @Operation(summary = "유저 정보 조회", description = "해당 유저 모든 정보 반환, 유저 본인만 확인 가능")
-    public ApiResponse<UserResponseDTO.UserInfoResultDTO> getStuInfo(@PathVariable(value = "userId") String userId) {
+    public ApiResponse<UserResponseDTO.UserInfoResultDTO> getUserInfo(@PathVariable(value = "userId") String userId) {
         User user = userService.getInfoOfUser(userId);
         return ApiResponse.of(SuccessStatus.GET_USER_INFO, UserConverter.toUserInfoResultDTO(user));
     }
@@ -58,7 +61,7 @@ public class UserController {
     //학생 정보 수정
     @PutMapping("/{userId}")
     @Operation(summary = "유저 정보 수정", description = "수정된 정보 반환, 유저 본인만 가능")
-    public ApiResponse<UserResponseDTO.UserInfoResultDTO> updateStuInfo(@PathVariable(value = "userId") String userId, @RequestBody @Valid UserRequestDTO.UpdateInfoDto request) {
+    public ApiResponse<UserResponseDTO.UserInfoResultDTO> updateUserInfo(@PathVariable(value = "userId") String userId, @RequestBody @Valid UserRequestDTO.UpdateInfoDto request) {
         User user = userService.updateInfoOfUser(userId, request);
         return ApiResponse.of(SuccessStatus.UPDATE_USER_INFO, UserConverter.toUserInfoResultDTO(user));
     }
@@ -66,8 +69,16 @@ public class UserController {
     //학생 탈퇴
     @DeleteMapping("{userId}")
     @Operation(summary = "유저 탈퇴", description = "Long Id 반환, 유저 본인만 가능")
-    public ApiResponse<UserResponseDTO.RegisterResultDTO> deleteStuInfo(@PathVariable(value = "userId") String userId) {
+    public ApiResponse<UserResponseDTO.RegisterResultDTO> deleteUserInfo(@PathVariable(value = "userId") String userId) {
         User user = userService.deleteInfoOfUser(userId);
         return ApiResponse.of(SuccessStatus.DELETE_USER_INFO, UserConverter.toJoinResultDTO(user));
+    }
+
+    @PostMapping("/section/{userId}")
+    @Operation(summary = "역할 선택", description = "교수 or 학생 선택")
+    public ApiResponse<List<UserResponseDTO.UserSectionResultDTO>> selectRole(@PathVariable(value = "userId") String userId,
+                                                                        @RequestBody @Valid List<UserRequestDTO.SelectUserSectionDto> request) {
+        List<UserSection> userSections = userService.createUserSection(userId, request);
+        return ApiResponse.of(SuccessStatus.CREATE_USER_SECTION, UserConverter.toUserSectionResultDTO(userSections));
     }
 }

@@ -3,9 +3,14 @@ package ALTERCAST.aLterMS.service;
 import ALTERCAST.aLterMS.apiPayLoad.code.status.ErrorStatus;
 import ALTERCAST.aLterMS.apiPayLoad.exception.handler.TempHandler;
 import ALTERCAST.aLterMS.converter.UserConverter;
+import ALTERCAST.aLterMS.domain.Roles;
+import ALTERCAST.aLterMS.domain.Section;
 import ALTERCAST.aLterMS.domain.User;
 import ALTERCAST.aLterMS.domain.UserSection;
+import ALTERCAST.aLterMS.domain.role.Role;
 import ALTERCAST.aLterMS.dto.UserRequestDTO;
+import ALTERCAST.aLterMS.repository.RoleRepository;
+import ALTERCAST.aLterMS.repository.SectionRepository;
 import ALTERCAST.aLterMS.repository.UserRepository;
 import ALTERCAST.aLterMS.repository.UserSectionRepository;
 import jakarta.transaction.Transactional;
@@ -23,6 +28,8 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserSectionRepository userSectionRepository;
+    private final SectionRepository sectionRepository;
+    private final RoleRepository roleRepository;
 
     @Transactional
     public User joinUser(UserRequestDTO.JoinDto request) {
@@ -35,14 +42,14 @@ public class UserService {
     }
 
     @Transactional
-    public User getInfoOfUser(String stuId) {
+    public User getInfoOfUser(String userId) {
 
-        if (userRepository.findByUserId(stuId).isEmpty()) {
+        if (userRepository.findByUserId(userId).isEmpty()) {
             throw new TempHandler(ErrorStatus.NOT_EXIST_USER);
             // 해당 학생 없음
         }
 
-        return userRepository.findByUserId(stuId).get();
+        return userRepository.findByUserId(userId).get();
     }
 
     @Transactional
@@ -87,6 +94,32 @@ public class UserService {
             }
         }
         return authorities;
+    }
+
+    @Transactional
+    public List<UserSection> createUserSection(String userId, List<UserRequestDTO.SelectUserSectionDto> requests) {
+        if (userRepository.findByUserId(userId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_USER);
+            // 해당 학생 없음
+        }
+        User user = userRepository.findByUserId(userId).get();
+        final Roles roles = Roles.builder().roles(roleRepository.findAll()).build();
+
+        List<UserSection> userSections = new ArrayList<>();
+        for (UserRequestDTO.SelectUserSectionDto userData : requests) {
+            if (sectionRepository.findById(userData.getSecId()).isEmpty()) {
+                throw new TempHandler(ErrorStatus.NOT_EXIST_SECTION);
+                // 해당 학생 없음
+            }
+            Section section = sectionRepository.findById(userData.getSecId()).get();
+
+            UserSection userSection = UserConverter.toUserSection(user, section, roles.findRole(userData.getRole()));
+            userSectionRepository.save(userSection);
+            userSections.add(userSection);
+        }
+
+        return userSections;
+
     }
 
 }

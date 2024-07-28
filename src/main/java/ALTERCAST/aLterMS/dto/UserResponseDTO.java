@@ -31,4 +31,12 @@ public class UserResponseDTO {
         String deptName;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UserSectionResultDTO {
+        Long Id;
+    }
+
 }

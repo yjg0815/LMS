@@ -23,7 +23,10 @@ public enum SuccessStatus implements BaseCode {
     // 학생 요청 관련 응답
     GET_USER_INFO(HttpStatus.OK, "STU2001", "학생 정보 조회 완료"),
     UPDATE_USER_INFO(HttpStatus.OK, "STU2002", "학생 정보 수정 완료"),
-    DELETE_USER_INFO(HttpStatus.OK, "STU2003", "학생 탈퇴 완료")
+    DELETE_USER_INFO(HttpStatus.OK, "STU2003", "학생 탈퇴 완료"),
+
+    //userSection
+    CREATE_USER_SECTION(HttpStatus.CREATED, "USERSEC2001", "강의 정보 입력 완료")
 
     ;
 

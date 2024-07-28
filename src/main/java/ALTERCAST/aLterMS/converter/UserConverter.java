@@ -1,8 +1,13 @@
 package ALTERCAST.aLterMS.converter;
 
+import ALTERCAST.aLterMS.domain.Section;
 import ALTERCAST.aLterMS.domain.User;
+import ALTERCAST.aLterMS.domain.UserSection;
+import ALTERCAST.aLterMS.domain.role.Role;
 import ALTERCAST.aLterMS.dto.UserRequestDTO;
 import ALTERCAST.aLterMS.dto.UserResponseDTO;
+
+import java.util.List;
 
 public class UserConverter {
 
@@ -37,5 +42,20 @@ public class UserConverter {
                 .build();
     }
 
+    public static UserSection toUserSection(User user, Section section, Role role) {
+        return UserSection.builder()
+                .user(user)
+                .section(section)
+                .role(role)
+                .build();
+    }
+
+    public static List<UserResponseDTO.UserSectionResultDTO> toUserSectionResultDTO(List<UserSection> userSections) {
+        return userSections.stream()
+                .map(each -> UserResponseDTO.UserSectionResultDTO.builder()
+                        .Id(each.getId()).build())
+                .toList();
+
+    }
 
 }

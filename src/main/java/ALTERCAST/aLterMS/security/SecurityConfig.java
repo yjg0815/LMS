@@ -5,6 +5,7 @@ import ALTERCAST.aLterMS.repository.UserSectionRepository;
 import ALTERCAST.aLterMS.service.UserService;
 import ALTERCAST.aLterMS.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -77,7 +78,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**")
                         .permitAll()
-                        .requestMatchers("/users/join","/users/login","/auth/**", "/oauth2/**")
+                        .requestMatchers(PathRequest.toH2Console()).permitAll()
+                        .requestMatchers("/users/join","/users/login","users/section/{userId}","/auth/**", "/oauth2/**")
                         .permitAll()
                         .requestMatchers("/", "/error", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
                         .permitAll()

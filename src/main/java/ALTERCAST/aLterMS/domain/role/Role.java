@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "name") // name을 dtype 칼럼으로 설정
 @AllArgsConstructor
 @NoArgsConstructor

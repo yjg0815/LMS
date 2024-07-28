@@ -49,4 +49,11 @@ public class UserRequestDTO {
         String phone;
         String deptName;
     }
+
+    @Getter
+    public static class SelectUserSectionDto {
+
+        Long secId;
+        String role;
+    }
 }
