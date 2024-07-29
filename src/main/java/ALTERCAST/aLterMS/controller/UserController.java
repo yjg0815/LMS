@@ -53,24 +53,24 @@ public class UserController {
     //학생 정보 조회
     @GetMapping()
     @Operation(summary = "유저 정보 조회", description = "해당 유저 모든 정보 반환, 유저 본인만 확인 가능")
-    public ApiResponse<UserResponseDTO.UserInfoResultDTO> getUserInfo(@PathVariable(value = "userId") String userId) {
-        User user = userService.getInfoOfUser(userId);
+    public ApiResponse<UserResponseDTO.UserInfoResultDTO> getUserInfo() {
+        User user = userService.getInfoOfUser();
         return ApiResponse.of(SuccessStatus.GET_USER_INFO, UserConverter.toUserInfoResultDTO(user));
     }
 
     //학생 정보 수정
     @PutMapping()
     @Operation(summary = "유저 정보 수정", description = "수정된 정보 반환, 유저 본인만 가능")
-    public ApiResponse<UserResponseDTO.UserInfoResultDTO> updateUserInfo(@PathVariable(value = "userId") String userId, @RequestBody @Valid UserRequestDTO.UpdateInfoDto request) {
-        User user = userService.updateInfoOfUser(userId, request);
+    public ApiResponse<UserResponseDTO.UserInfoResultDTO> updateUserInfo(@RequestBody @Valid UserRequestDTO.UpdateInfoDto request) {
+        User user = userService.updateInfoOfUser(request);
         return ApiResponse.of(SuccessStatus.UPDATE_USER_INFO, UserConverter.toUserInfoResultDTO(user));
     }
 
     //학생 탈퇴
     @DeleteMapping()
     @Operation(summary = "유저 탈퇴", description = "Long Id 반환, 유저 본인만 가능")
-    public ApiResponse<UserResponseDTO.RegisterResultDTO> deleteUserInfo(@PathVariable(value = "userId") String userId) {
-        User user = userService.deleteInfoOfUser(userId);
+    public ApiResponse<UserResponseDTO.RegisterResultDTO> deleteUserInfo() {
+        User user = userService.deleteInfoOfUser();
         return ApiResponse.of(SuccessStatus.DELETE_USER_INFO, UserConverter.toJoinResultDTO(user));
     }
 

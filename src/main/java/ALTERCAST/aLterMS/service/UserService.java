@@ -16,6 +16,7 @@ import ALTERCAST.aLterMS.repository.UserSectionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,10 +31,12 @@ public class UserService {
     private final UserSectionRepository userSectionRepository;
     private final SectionRepository sectionRepository;
     private final RoleRepository roleRepository;
+    private String userId;
 
     @Transactional
     public User joinUser(UserRequestDTO.JoinDto request) {
-        if (userRepository.findByUserId(request.getUserId()).isPresent()) {
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (userRepository.findByUserId(userId).isPresent()) {
             throw new TempHandler(ErrorStatus.ALREADY_EXIST_ID);
             // 이미 중복된 userId 존재
         }
@@ -42,8 +45,8 @@ public class UserService {
     }
 
     @Transactional
-    public User getInfoOfUser(String userId) {
-
+    public User getInfoOfUser() {
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
         if (userRepository.findByUserId(userId).isEmpty()) {
             throw new TempHandler(ErrorStatus.NOT_EXIST_USER);
             // 해당 학생 없음
@@ -53,7 +56,8 @@ public class UserService {
     }
 
     @Transactional
-    public User updateInfoOfUser(String userId, UserRequestDTO.UpdateInfoDto request) {
+    public User updateInfoOfUser(UserRequestDTO.UpdateInfoDto request) {
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
         if (userRepository.findByUserId(userId).isEmpty()) {
             throw new TempHandler(ErrorStatus.NOT_EXIST_USER);
             // 해당 학생 없음
@@ -66,7 +70,8 @@ public class UserService {
     }
 
     @Transactional
-    public User deleteInfoOfUser(String userId) {
+    public User deleteInfoOfUser() {
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
         if (userRepository.findByUserId(userId).isEmpty()) {
             throw new TempHandler(ErrorStatus.NOT_EXIST_USER);
             // 해당 학생 없음
