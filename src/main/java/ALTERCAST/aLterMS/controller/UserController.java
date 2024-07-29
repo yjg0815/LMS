@@ -51,7 +51,7 @@ public class UserController {
     }
 
     //학생 정보 조회
-    @GetMapping("/{userId}")
+    @GetMapping()
     @Operation(summary = "유저 정보 조회", description = "해당 유저 모든 정보 반환, 유저 본인만 확인 가능")
     public ApiResponse<UserResponseDTO.UserInfoResultDTO> getUserInfo(@PathVariable(value = "userId") String userId) {
         User user = userService.getInfoOfUser(userId);
@@ -59,7 +59,7 @@ public class UserController {
     }
 
     //학생 정보 수정
-    @PutMapping("/{userId}")
+    @PutMapping()
     @Operation(summary = "유저 정보 수정", description = "수정된 정보 반환, 유저 본인만 가능")
     public ApiResponse<UserResponseDTO.UserInfoResultDTO> updateUserInfo(@PathVariable(value = "userId") String userId, @RequestBody @Valid UserRequestDTO.UpdateInfoDto request) {
         User user = userService.updateInfoOfUser(userId, request);
@@ -67,15 +67,15 @@ public class UserController {
     }
 
     //학생 탈퇴
-    @DeleteMapping("{userId}")
+    @DeleteMapping()
     @Operation(summary = "유저 탈퇴", description = "Long Id 반환, 유저 본인만 가능")
     public ApiResponse<UserResponseDTO.RegisterResultDTO> deleteUserInfo(@PathVariable(value = "userId") String userId) {
         User user = userService.deleteInfoOfUser(userId);
         return ApiResponse.of(SuccessStatus.DELETE_USER_INFO, UserConverter.toJoinResultDTO(user));
     }
 
-    @PostMapping("/section/{userId}")
-    @Operation(summary = "역할 선택", description = "교수 or 학생 선택")
+    @PostMapping("/set/{userId}")
+    @Operation(summary = "역할 및 강의 선택", description = "교수 or 학생 선택 and section 선택")
     public ApiResponse<List<UserResponseDTO.UserSectionResultDTO>> selectRole(@PathVariable(value = "userId") String userId,
                                                                         @RequestBody @Valid List<UserRequestDTO.SelectUserSectionDto> request) {
         List<UserSection> userSections = userService.createUserSection(userId, request);

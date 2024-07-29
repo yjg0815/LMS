@@ -19,6 +19,9 @@ public class Section extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "sec_num")
+    private int secNum;
+
     @Enumerated(EnumType.STRING)
     private Semester semester;
 

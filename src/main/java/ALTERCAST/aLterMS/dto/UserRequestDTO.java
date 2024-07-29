@@ -39,10 +39,10 @@ public class UserRequestDTO {
         @Size(min = 1, max = 6)
         String name;
 
-        @Size(min = 5, max = 10)
+        @Size(min = 5, max = 20)
         String userId;
 
-        @Size(min = 5)
+        @Size(min = 4)
         String password;
 
         String email;
