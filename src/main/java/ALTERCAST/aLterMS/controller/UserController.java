@@ -74,6 +74,7 @@ public class UserController {
         return ApiResponse.of(SuccessStatus.DELETE_USER_INFO, UserConverter.toJoinResultDTO(user));
     }
 
+    //역할 선택
     @PostMapping("/set/{userId}")
     @Operation(summary = "역할 및 강의 선택", description = "교수 or 학생 선택 and section 선택")
     public ApiResponse<List<UserResponseDTO.UserSectionResultDTO>> selectRole(@PathVariable(value = "userId") String userId,
@@ -81,4 +82,6 @@ public class UserController {
         List<UserSection> userSections = userService.createUserSection(userId, request);
         return ApiResponse.of(SuccessStatus.CREATE_USER_SECTION, UserConverter.toUserSectionResultDTO(userSections));
     }
+
+    // todo : role이랑 section get 컨트롤러
 }
