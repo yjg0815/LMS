@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { fetchUserInfo } from '../api/userApi';
+import React, { useState } from 'react';
+import { getUserInfo } from '../api/userApi';
 import '../styles/home.css'; // For styling
 
 function Home() {
@@ -11,9 +11,11 @@ function Home() {
         setLoading(true);
         setError(null);
         try {
-            const response = await fetchUserInfo();
-            setUserInfo(response.data);
+            const response = await getUserInfo();
+            console.log('User info response:', response); // Log response to debug
+            setUserInfo(response.data.result); // Adjust according to response structure
         } catch (err) {
+            console.error('Error fetching user info:', err);
             setError('Failed to fetch user information.');
         } finally {
             setLoading(false);
@@ -31,9 +33,11 @@ function Home() {
                 {userInfo && (
                     <div>
                         <h2>User Information</h2>
-                        <p><strong>ID:</strong> {userInfo.id}</p>
-                        <p><strong>Username:</strong> {userInfo.username}</p>
+                        <p><strong>ID:</strong> {userInfo.userId}</p> {/* Adjust field names */}
                         <p><strong>Name:</strong> {userInfo.name}</p>
+                        <p><strong>Email:</strong> {userInfo.email}</p>
+                        <p><strong>Phone:</strong> {userInfo.phone}</p>
+                        <p><strong>Department:</strong> {userInfo.deptName}</p>
                     </div>
                 )}
                 {!userInfo && !loading && !error && (

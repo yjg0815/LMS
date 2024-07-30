@@ -85,7 +85,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         }
         System.out.println("]");
 
-        String token = jwtUtil.createToken(id, false); // TODO : JWT에 어떤 정보 넣을지
+        String token = jwtUtil.createToken(id); // TODO : JWT에 어떤 정보 넣을지
 
         try {
             // body로 jwt 발급

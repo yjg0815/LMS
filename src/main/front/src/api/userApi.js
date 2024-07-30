@@ -42,6 +42,6 @@ export const deleteUser = () => {
     return apiClient.delete('/users');
 };
 
-export const fetchUserInfo = () => {
+export const getUserInfo = () => {
     return apiClient.get('/users');
 };

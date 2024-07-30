@@ -6,11 +6,9 @@ import lombok.Getter;
 public class AccessAccount {
 
     private final String userId;
-    private final boolean isAdmin;
     //todo: role 추가
 
-    public AccessAccount(final String userId, final boolean isAdmin) {
+    public AccessAccount(final String userId) {
         this.userId = userId;
-        this.isAdmin = isAdmin;
     }
 }

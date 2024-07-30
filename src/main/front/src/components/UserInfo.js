@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { fetchUserInfo, updateUserInfo, deleteUser } from '../api/userApi';
+import { getUserInfo, updateUserInfo, deleteUser } from '../api/userApi';
 
 function UserInfo() {
     const [userInfo, setUserInfo] = useState(null);
     const [editData, setEditData] = useState({
         name: '',
-        id: '',
+        userId: '',
         password: '',
         email: '',
-        phoneNumber: '',
-        department: '',
+        phone: '',
+        deptName: '',
     });
 
     useEffect(() => {
-        async function fetchUserData() {
+        async function fetchUserInfo() {
             try {
-                const response = await fetchUserInfo();
-                setUserInfo(response.data);
-                setEditData(response.data); // Prefill the form with user data
+                const userData = await getUserInfo();
+                console.log('User info response:', userData); // Debug log
+                setUserInfo(userData); // Update state with user data
+                setEditData(userData); // Prefill the form with user data
             } catch (error) {
                 console.error('Failed to fetch user info', error);
             }
         }
-        fetchUserData();
+        fetchUserInfo();
     }, []);
 
     const handleChange = (e) => {
@@ -36,8 +37,8 @@ function UserInfo() {
         e.preventDefault();
         try {
             await updateUserInfo(editData);
-            const response = await fetchUserInfo();
-            setUserInfo(response.data);
+            const updatedUserData = await getUserInfo();
+            setUserInfo(updatedUserData);
         } catch (error) {
             console.error('Failed to update user info', error);
         }
@@ -58,11 +59,61 @@ function UserInfo() {
         <div>
             <h1>User Info</h1>
             <form onSubmit={handleUpdate}>
-                <input type="text" name="name" value={editData.name} onChange={handleChange} required/>
-                <input type="text" name="id" value={editData.id} onChange={handleChange} required/>
-                <input type="text" name="email" value={editData.email} onChange={handleChange} required/>
-                <input type="text" name="phoneNumber" value={editData.phoneNumber} onChange={handleChange} required/>
-                <input type="text" name="department" value={editData.department} onChange={handleChange} required/>
+                <div>
+                    <label htmlFor="name">Name:</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={editData.name}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="userId">User ID:</label>
+                    <input
+                        type="text"
+                        id="userId"
+                        name="userId"
+                        value={editData.userId}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="email">Email:</label>
+                    <input
+                        type="text"
+                        id="email"
+                        name="email"
+                        value={editData.email}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="phone">Phone:</label>
+                    <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        value={editData.phone}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div>
+                    <label htmlFor="deptName">Department Name:</label>
+                    <input
+                        type="text"
+                        id="deptName"
+                        name="deptName"
+                        value={editData.deptName}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
                 <button type="submit">Update</button>
             </form>
             <button onClick={handleDelete}>Delete Account</button>

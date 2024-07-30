@@ -27,7 +27,6 @@ public class UserResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class UserInfoResultDTO {
-        Long Id;
         String userId;
         String password;
         String name;

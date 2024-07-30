@@ -11,6 +11,8 @@ const Login = () => {
         event.preventDefault();
 
         try {
+            console.log('Logging in with:', { userId, password });
+
             const response = await axios.post('http://localhost:8080/users/login', {
                 userId,
                 password
@@ -20,9 +22,18 @@ const Login = () => {
                 }
             });
 
-            const { token } = response.data; // Adjust based on your backend response
-            localStorage.setItem('jwtToken', token); // Store the token
-            navigate('/home'); // Navigate to home after login
+            console.log('Login response:', response.data);
+
+            // Extract the token from the 'authorization' field
+            const authorization = response.data.authorization;
+            if (authorization && authorization.startsWith('Bearer ')) {
+                const token = authorization.split(' ')[1]; // Extract the token part
+                localStorage.setItem('jwtToken', token);
+                console.log('Token stored:', token);
+                navigate('/home');
+            } else {
+                console.error('Token not found in response');
+            }
         } catch (error) {
             console.error('Login failed:', error.response || error);
         }

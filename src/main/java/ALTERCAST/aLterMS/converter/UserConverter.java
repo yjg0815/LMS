@@ -22,7 +22,6 @@ public class UserConverter {
 
     public static UserResponseDTO.UserInfoResultDTO toUserInfoResultDTO(User user) {
         return UserResponseDTO.UserInfoResultDTO.builder()
-                .Id(user.getId())
                 .name(user.getName())
                 .userId(user.getUserId())
                 .email(user.getEmail())
