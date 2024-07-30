@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { join } from '../api/userApi'; // Ensure this function is implemented
-//import '../styles/join.css'; // For styling
+import { join } from '../api/userApi';
 
 function Join() {
     const [formData, setFormData] = useState({
@@ -25,7 +24,7 @@ function Join() {
         e.preventDefault();
         try {
             await join(formData);
-            navigate('/select-role/' + formData.userId); // Redirect to SelectRole after registration
+            navigate(`/users/set/${formData.userId}`); // Redirect to SelectRole with userId
         } catch (error) {
             console.error('Registration failed', error);
         }
@@ -46,7 +45,7 @@ function Join() {
                 <input
                     type="text"
                     name="userId"
-                    placeholder="Id"
+                    placeholder="ID"
                     value={formData.userId}
                     onChange={handleChange}
                     required
@@ -83,7 +82,7 @@ function Join() {
                     onChange={handleChange}
                     required
                 />
-                <button type="submit">Register</button>
+                <button type="submit">Join</button>
             </form>
         </div>
     );

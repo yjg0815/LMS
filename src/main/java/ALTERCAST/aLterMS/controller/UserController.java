@@ -2,11 +2,14 @@ package ALTERCAST.aLterMS.controller;
 
 import ALTERCAST.aLterMS.apiPayLoad.ApiResponse;
 import ALTERCAST.aLterMS.apiPayLoad.code.status.SuccessStatus;
+import ALTERCAST.aLterMS.converter.SectionConverter;
 import ALTERCAST.aLterMS.converter.UserConverter;
 import ALTERCAST.aLterMS.domain.User;
 import ALTERCAST.aLterMS.domain.UserSection;
+import ALTERCAST.aLterMS.dto.SectionResponseDTO;
 import ALTERCAST.aLterMS.dto.UserRequestDTO;
 import ALTERCAST.aLterMS.dto.UserResponseDTO;
+import ALTERCAST.aLterMS.service.SectionService;
 import ALTERCAST.aLterMS.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,6 +28,7 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final SectionService sectionService;
 
     //회원가입
     @PostMapping("/join")
@@ -83,5 +87,17 @@ public class UserController {
         return ApiResponse.of(SuccessStatus.CREATE_USER_SECTION, UserConverter.toUserSectionResultDTO(userSections));
     }
 
-    // todo : role이랑 section get 컨트롤러
+    @GetMapping("/set/roles")
+    @Operation(summary = "현재 존재하는 Role 가져오기")
+    public ApiResponse<UserResponseDTO.getUserRoleResultDTO> fetchRoles() {
+        return ApiResponse.of(SuccessStatus.GET_ROLE_INFO, UserConverter.toGetUserRoleResultDTO(userService.getRoles()));
+    }
+
+    @GetMapping("/set/sections")
+    @Operation(summary = "전체 section 가져오기")
+    public ApiResponse<List<SectionResponseDTO.getAllSectionsDTO>> fetchSections(){
+        return ApiResponse.of(SuccessStatus.GET_ALL_SECTIONS, SectionConverter.toGetAllSectionsDTO(sectionService.getAllSections()));
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package ALTERCAST.aLterMS.converter;
 
+import ALTERCAST.aLterMS.domain.Roles;
 import ALTERCAST.aLterMS.domain.Section;
 import ALTERCAST.aLterMS.domain.User;
 import ALTERCAST.aLterMS.domain.UserSection;
@@ -56,6 +57,10 @@ public class UserConverter {
                         .Id(each.getId()).build())
                 .toList();
 
+    }
+
+    public static UserResponseDTO.getUserRoleResultDTO toGetUserRoleResultDTO(Roles roles) {
+        return UserResponseDTO.getUserRoleResultDTO.builder().roles(roles).build();
     }
 
 }

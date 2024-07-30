@@ -1,9 +1,14 @@
 package ALTERCAST.aLterMS.dto;
 
+import ALTERCAST.aLterMS.domain.Roles;
+import ALTERCAST.aLterMS.domain.role.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserResponseDTO {
 
@@ -37,6 +42,14 @@ public class UserResponseDTO {
     @AllArgsConstructor
     public static class UserSectionResultDTO {
         Long Id;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class getUserRoleResultDTO {
+        Roles roles;
     }
 
 }

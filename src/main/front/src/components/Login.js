@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate from react-router-dom
-import '../styles/join.css'; // For styling
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate(); // Create a navigate function
+    const navigate = useNavigate();
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -21,15 +20,11 @@ const Login = () => {
                 }
             });
 
-            console.log('Login successful:', response.data);
-            // Optionally store the token
-            localStorage.setItem('token', response.data.authorization);
-
-            // Redirect to the home screen
-            navigate('/home'); // Adjust the path according to your routes
+            const { token } = response.data; // Adjust based on your backend response
+            localStorage.setItem('jwtToken', token); // Store the token
+            navigate('/home'); // Navigate to home after login
         } catch (error) {
             console.error('Login failed:', error.response || error);
-            // Handle login failure
         }
     };
 
@@ -59,7 +54,7 @@ const Login = () => {
                 </div>
                 <button type="submit">Login</button>
             </form>
-            <button onClick={() => navigate('/users/join')}>Sign Up</button> {/* Button to navigate to Sign Up */}
+            <button onClick={() => navigate('/users/join')}>Sign Up</button>
         </div>
     );
 };

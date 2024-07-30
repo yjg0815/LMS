@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getUserInfo, updateUserInfo, deleteUser } from '../api/userApi';
+import { fetchUserInfo, updateUserInfo, deleteUser } from '../api/userApi';
 
 function UserInfo() {
     const [userInfo, setUserInfo] = useState(null);
@@ -13,16 +13,16 @@ function UserInfo() {
     });
 
     useEffect(() => {
-        async function fetchUserInfo() {
+        async function fetchUserData() {
             try {
-                const response = await getUserInfo();
+                const response = await fetchUserInfo();
                 setUserInfo(response.data);
                 setEditData(response.data); // Prefill the form with user data
             } catch (error) {
                 console.error('Failed to fetch user info', error);
             }
         }
-        fetchUserInfo();
+        fetchUserData();
     }, []);
 
     const handleChange = (e) => {
@@ -36,8 +36,7 @@ function UserInfo() {
         e.preventDefault();
         try {
             await updateUserInfo(editData);
-            // Optionally, refresh user info after update
-            const response = await getUserInfo();
+            const response = await fetchUserInfo();
             setUserInfo(response.data);
         } catch (error) {
             console.error('Failed to update user info', error);
@@ -61,9 +60,9 @@ function UserInfo() {
             <form onSubmit={handleUpdate}>
                 <input type="text" name="name" value={editData.name} onChange={handleChange} required/>
                 <input type="text" name="id" value={editData.id} onChange={handleChange} required/>
-                <input type="text" name="e-mail" value={editData.name} onChange={handleChange} required/>
-                <input type="text" name="phone" value={editData.name} onChange={handleChange} required/>
-                <input type="text" name="department" value={editData.name} onChange={handleChange} required/>
+                <input type="text" name="email" value={editData.email} onChange={handleChange} required/>
+                <input type="text" name="phoneNumber" value={editData.phoneNumber} onChange={handleChange} required/>
+                <input type="text" name="department" value={editData.department} onChange={handleChange} required/>
                 <button type="submit">Update</button>
             </form>
             <button onClick={handleDelete}>Delete Account</button>

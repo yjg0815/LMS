@@ -77,6 +77,7 @@ public class UserService {
             // 해당 학생 없음
         }
         User user = userRepository.findByUserId(userId).get();
+        userSectionRepository.deleteById(user.getId());
         userRepository.deleteById(user.getId());
 
         return user;
@@ -108,7 +109,7 @@ public class UserService {
             // 해당 학생 없음
         }
         User user = userRepository.findByUserId(userId).get();
-        final Roles roles = Roles.builder().roles(roleRepository.findAll()).build();
+        Roles roles = getRoles();
 
         List<UserSection> userSections = new ArrayList<>();
         for (UserRequestDTO.SelectUserSectionDto userData : requests) {
@@ -125,6 +126,13 @@ public class UserService {
 
         return userSections;
 
+    }
+
+    @Transactional
+    public Roles getRoles() {
+        Roles roles = Roles.builder().roles(roleRepository.findAll()).build();
+
+        return roles;
     }
 
 }

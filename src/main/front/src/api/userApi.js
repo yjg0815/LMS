@@ -1,55 +1,47 @@
 import axios from 'axios';
+import apiClient from './apiClient';
 
 const API_BASE_URL = 'http://localhost:8080';
 
+// Create an Axios instance for unauthenticated requests
+const unauthenticatedClient = axios.create({
+    baseURL: API_BASE_URL,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
+
+// Unauthenticated requests
 export const join = (userData) => {
-    return axios.post(`${API_BASE_URL}/users/join`, userData, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+    return unauthenticatedClient.post('/users/join', userData);
 };
+
 export const fetchRoles = () => {
-    return axios.get('http://localhost:8080/roles', {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+    return unauthenticatedClient.get('/users/set/roles');
 };
 
 export const fetchSections = () => {
-    return axios.get('http://localhost:8080/sections', {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-};
-
-export const selectRole = (userId, roleData) => {
-    return axios.post(`http://localhost:8080/set/${userId}`, roleData, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+    return unauthenticatedClient.get('/users/set/sections');
 };
 
 export const loginUser = (userData) => {
-    return axios.post(`${API_BASE_URL}/users/login`, userData);
+    return unauthenticatedClient.post('/users/login', userData);
 };
 
-export const getUserInfo = () => {
-    return axios.get(`${API_BASE_URL}/users`);
+// Authenticated requests
+export const selectRole = (userId, roleData) => {
+    return unauthenticatedClient.post(`/users/set/${userId}`, roleData);
 };
 
 export const updateUserInfo = (data) => {
-    return axios.put(`${API_BASE_URL}/users`, data);
+    return apiClient.put('/users', data);
 };
 
 export const deleteUser = () => {
-    return axios.delete(`${API_BASE_URL}/users`);
+    return apiClient.delete('/users');
 };
 
 export const fetchUserInfo = () => {
-    return axios.get(`${API_BASE_URL}/users`);
+    return apiClient.get('/users');
 };
-
