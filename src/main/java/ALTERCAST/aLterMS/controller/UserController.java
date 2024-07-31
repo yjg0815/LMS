@@ -62,7 +62,7 @@ public class UserController {
         return ApiResponse.of(SuccessStatus.GET_USER_INFO, UserConverter.toUserInfoResultDTO(user));
     }
 
-    //학생 정보 수정
+    //유저 정보 수정
     @PutMapping()
     @Operation(summary = "유저 정보 수정", description = "수정된 정보 반환, 유저 본인만 가능")
     public ApiResponse<UserResponseDTO.UserInfoResultDTO> updateUserInfo(@RequestBody @Valid UserRequestDTO.UpdateInfoDto request) {
@@ -70,7 +70,7 @@ public class UserController {
         return ApiResponse.of(SuccessStatus.UPDATE_USER_INFO, UserConverter.toUserInfoResultDTO(user));
     }
 
-    //학생 탈퇴
+    //유저 탈퇴
     @DeleteMapping()
     @Operation(summary = "유저 탈퇴", description = "Long Id 반환, 유저 본인만 가능")
     public ApiResponse<UserResponseDTO.RegisterResultDTO> deleteUserInfo() {
@@ -97,6 +97,12 @@ public class UserController {
     @Operation(summary = "전체 section 가져오기")
     public ApiResponse<List<SectionResponseDTO.getAllSectionsDTO>> fetchSections(){
         return ApiResponse.of(SuccessStatus.GET_ALL_SECTIONS, SectionConverter.toGetAllSectionsDTO(sectionService.getAllSections()));
+    }
+
+    @GetMapping("/select/sections")
+    @Operation(summary = "유저가 선택한 section 목록 가져오기")
+    public ApiResponse<List<SectionResponseDTO.getAllSectionsDTO>> getUserSections() {
+        return ApiResponse.of(SuccessStatus.GET_ALL_SECTIONS, SectionConverter.toGetAllSectionsDTO(userService.getUserSections()));
     }
 
 

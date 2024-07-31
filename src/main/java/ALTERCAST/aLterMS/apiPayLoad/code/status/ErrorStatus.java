@@ -42,7 +42,10 @@ public enum ErrorStatus implements BaseErrorCode {
     NOT_EXIST_USER(HttpStatus.NOT_FOUND, "USER4002", "존재하지 않는 회원입니다."),
 
     //Section
-    NOT_EXIST_SECTION(HttpStatus.NOT_FOUND, "SEC4001", "존재하지 않는 클래스 입니다.")
+    NOT_EXIST_SECTION(HttpStatus.NOT_FOUND, "SEC4001", "존재하지 않는 클래스 입니다."),
+    NOT_EXIST_NOTIFICATION(HttpStatus.NOT_FOUND, "SEC4002", "존재하지 않는 공지 입니다."),
+    NOT_EXIST_ASSIGNMENT(HttpStatus.NOT_FOUND, "SEC4003", "존재하지 않는 과제 입니다."),
+    NOT_EXIST_LEARNING(HttpStatus.NOT_FOUND, "SEC4004", "존재하지 않는 주차 입니다.")
     ;
 
 

@@ -1,5 +1,8 @@
 package ALTERCAST.aLterMS.converter;
 
+import ALTERCAST.aLterMS.domain.Assignment;
+import ALTERCAST.aLterMS.domain.Learning;
+import ALTERCAST.aLterMS.domain.Notification;
 import ALTERCAST.aLterMS.domain.Section;
 import ALTERCAST.aLterMS.dto.SectionResponseDTO;
 import ALTERCAST.aLterMS.dto.UserResponseDTO;
@@ -18,5 +21,39 @@ public class SectionConverter {
                         .semester(each.getSemester().toString())
                         .build())
                 .toList();
+    }
+
+    public static List<SectionResponseDTO.getSectionNotiDTO> toGetSectionNotiDTO(List<Notification> notifications) {
+        return notifications.stream()
+                .map(each -> SectionResponseDTO.getSectionNotiDTO.builder()
+                        .id(each.getId())
+                        .title(each.getTitle())
+                        .description(each.getDescription())
+                        .build())
+                .toList();
+    }
+
+    public static List<SectionResponseDTO.getSectionLearningDTO> toGetSectionLearningDTO(List<Learning> learnings) {
+        return learnings.stream()
+                .map(each -> SectionResponseDTO.getSectionLearningDTO.builder()
+                        .id(each.getId())
+                        .start(each.getStart().toString())
+                        .end(each.getEnd().toString())
+                        .weekNum(each.getWeekNum())
+                        .build())
+                .toList();
+    }
+
+    public static List<SectionResponseDTO.getSectionAssignDTO> toGetSectionAssignDTO(List<Assignment> assignments) {
+        return assignments.stream()
+                .map(each -> SectionResponseDTO.getSectionAssignDTO.builder()
+                        .id(each.getId())
+                        .title(each.getTitle())
+                        .description(each.getDescription())
+                        .point(each.getPoint()+"")
+                        .deadline(each.getDescription())
+                        .build())
+                .toList();
+
     }
 }

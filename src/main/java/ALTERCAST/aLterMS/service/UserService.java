@@ -7,7 +7,6 @@ import ALTERCAST.aLterMS.domain.Roles;
 import ALTERCAST.aLterMS.domain.Section;
 import ALTERCAST.aLterMS.domain.User;
 import ALTERCAST.aLterMS.domain.UserSection;
-import ALTERCAST.aLterMS.domain.role.Role;
 import ALTERCAST.aLterMS.dto.UserRequestDTO;
 import ALTERCAST.aLterMS.repository.RoleRepository;
 import ALTERCAST.aLterMS.repository.SectionRepository;
@@ -90,7 +89,7 @@ public class UserService {
     public Collection<GrantedAuthority> getAuthorities(final Long id) {
         // UserSectionRepository에서 해당 User의 기록을 조회한다
         Collection<GrantedAuthority> authorities = new ArrayList<>();
-        List<UserSection> userSections = userSectionRepository.findAllByUserIdFetchJoinSection(id);
+        List<UserSection> userSections = userSectionRepository.findAllByIdFetchJoinSection(id);
         for (UserSection usersection : userSections) {
             // 각 Role에 지정된 Privilege를 가져온다.
             List<GrantedAuthority> auths = usersection.getRole().getGrantedAuthorities().stream().toList();
@@ -133,6 +132,17 @@ public class UserService {
         Roles roles = Roles.builder().roles(roleRepository.findAll()).build();
 
         return roles;
+    }
+
+    @Transactional
+    public List<Section> getUserSections() {
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (userRepository.findByUserId(userId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_USER);
+            // 해당 학생 없음
+        }
+
+        return userSectionRepository.findAllSectionByUserId(userId);
     }
 
 }

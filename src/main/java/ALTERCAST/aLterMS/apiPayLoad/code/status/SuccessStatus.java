@@ -30,7 +30,10 @@ public enum SuccessStatus implements BaseCode {
     CREATE_USER_SECTION(HttpStatus.CREATED, "USERSEC2001", "강의 정보 입력 완료"),
 
     //Section
-    GET_ALL_SECTIONS(HttpStatus.OK, "SEC2001", "전체 강의 조회 완료")
+    GET_ALL_SECTIONS(HttpStatus.OK, "SEC2001", "전체 강의 조회 완료"),
+    GET_SECTION_NOTIFICATIONS(HttpStatus.OK, "SEC2002", "해당 강의 공지 조회 완료"),
+    GET_SECTION_ASSIGNMENTS(HttpStatus.OK, "SEC2003", "해당 강의 과제 조회 완료"),
+    GET_SECTION_LEARNINGS(HttpStatus.OK, "SEC2004", "해당 강의 주차 조회 완료")
     ;
 
 

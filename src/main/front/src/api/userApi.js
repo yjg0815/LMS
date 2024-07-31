@@ -38,10 +38,33 @@ export const updateUserInfo = (data) => {
     return apiClient.put('/users', data);
 };
 
-export const deleteUser = () => {
+export const deleteUserInfo = () => {
     return apiClient.delete('/users');
 };
 
 export const getUserInfo = () => {
     return apiClient.get('/users');
+};
+
+export const getUserSections = () => {
+    return apiClient.get('/users/select/sections');
+};
+
+export const getNotifications = (secId) => {
+    return apiClient.get(`sections/${secId}/notifications`);
+};
+
+export const getNotificationDetail = (notiId) => {
+    return apiClient.get(`notifications/${notiId}`);
+};
+
+export const getLearnings = (secId) => {
+    return apiClient.get(`sections/${secId}/learnings`);
+};
+
+export const getAssignments = (secId) => {
+    return apiClient.get(`sections/${secId}/assignments`);
+};
+export const getAssignmentDetail = (assignId) => {
+    return apiClient.get(`assignments/${assignId}`);
 };

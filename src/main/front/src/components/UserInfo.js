@@ -1,122 +1,85 @@
-import React, { useEffect, useState } from 'react';
-import { getUserInfo, updateUserInfo, deleteUser } from '../api/userApi';
+// src/components/UserInfo.js
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getUserInfo, deleteUserInfo } from '../api/userApi';
+import EditUserInfo from './EditUserInfo';
+import '../styles/userInfo.css';
 
 function UserInfo() {
     const [userInfo, setUserInfo] = useState(null);
-    const [editData, setEditData] = useState({
-        name: '',
-        userId: '',
-        password: '',
-        email: '',
-        phone: '',
-        deptName: '',
-    });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        async function fetchUserInfo() {
-            try {
-                const userData = await getUserInfo();
-                console.log('User info response:', userData); // Debug log
-                setUserInfo(userData); // Update state with user data
-                setEditData(userData); // Prefill the form with user data
-            } catch (error) {
-                console.error('Failed to fetch user info', error);
-            }
-        }
         fetchUserInfo();
     }, []);
 
-    const handleChange = (e) => {
-        setEditData({
-            ...editData,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleUpdate = async (e) => {
-        e.preventDefault();
+    const fetchUserInfo = async () => {
+        setLoading(true);
+        setError(null);
         try {
-            await updateUserInfo(editData);
-            const updatedUserData = await getUserInfo();
-            setUserInfo(updatedUserData);
-        } catch (error) {
-            console.error('Failed to update user info', error);
+            const response = await getUserInfo();
+            setUserInfo(response.data.result);
+        } catch (err) {
+            console.error('Error fetching user info:', err);
+            setError('Failed to fetch user information.');
+        } finally {
+            setLoading(false);
         }
     };
 
-    const handleDelete = async () => {
-        try {
-            await deleteUser();
-            // Redirect or perform actions after deletion
-        } catch (error) {
-            console.error('Failed to delete user', error);
+    const handleDeleteUser = async () => {
+        if (window.confirm('Are you sure you want to withdraw?')) {
+            try {
+                await deleteUserInfo();
+                alert('User withdrawal completed.');
+                navigate('/login'); // Redirect to login page after withdrawal
+            } catch (err) {
+                console.error('Error deleting user info:', err);
+                setError('Failed to delete user information.');
+            }
         }
     };
 
-    if (!userInfo) return <div>Loading...</div>;
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
+    const handleSave = async () => {
+        await fetchUserInfo(); // Re-fetch user info after saving changes
+        setIsEditing(false); // Exit editing mode
+    };
+
+    const handleCancel = () => {
+        setIsEditing(false); // Cancel editing and go back to view mode
+    };
 
     return (
-        <div>
-            <h1>User Info</h1>
-            <form onSubmit={handleUpdate}>
-                <div>
-                    <label htmlFor="name">Name:</label>
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={editData.name}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="userId">User ID:</label>
-                    <input
-                        type="text"
-                        id="userId"
-                        name="userId"
-                        value={editData.userId}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="text"
-                        id="email"
-                        name="email"
-                        value={editData.email}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="phone">Phone:</label>
-                    <input
-                        type="text"
-                        id="phone"
-                        name="phone"
-                        value={editData.phone}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="deptName">Department Name:</label>
-                    <input
-                        type="text"
-                        id="deptName"
-                        name="deptName"
-                        value={editData.deptName}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit">Update</button>
-            </form>
-            <button onClick={handleDelete}>Delete Account</button>
+        <div className="user-info-container">
+            {loading && <p>Loading...</p>}
+            {error && <p>{error}</p>}
+            {isEditing ? (
+                <EditUserInfo
+                    userInfo={userInfo}
+                    onSave={handleSave}
+                    onCancel={handleCancel}
+                />
+            ) : (
+                userInfo && (
+                    <div>
+                        <h2>User Information</h2>
+                        <p><strong>ID:</strong> {userInfo.userId}</p>
+                        <p><strong>Name:</strong> {userInfo.name}</p>
+                        <p><strong>Email:</strong> {userInfo.email}</p>
+                        <p><strong>Phone:</strong> {userInfo.phone}</p>
+                        <p><strong>Department:</strong> {userInfo.deptName}</p>
+                        <button onClick={handleEdit}>Edit Information</button>
+                        <button onClick={handleDeleteUser}>Withdraw</button>
+                    </div>
+                )
+            )}
         </div>
     );
 }

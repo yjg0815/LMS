@@ -7,19 +7,17 @@ function SelectRole() {
     const [roles, setRoles] = useState([]);
     const [sections, setSections] = useState([]);
     const [selectedSections, setSelectedSections] = useState({});
-    const [message, setMessage] = useState('');
+    //const [error, setError] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const rolesResponse = await fetchRoles();
-                console.log('Roles response:', rolesResponse);
                 const rolesData = rolesResponse.data?.result?.roles?.roles || [];
                 setRoles(rolesData);
 
                 const sectionsResponse = await fetchSections();
-                console.log('Sections response:', sectionsResponse);
                 const sectionsData = sectionsResponse.data?.result || [];
                 setSections(sectionsData);
             } catch (error) {
@@ -53,6 +51,15 @@ function SelectRole() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Validate role selection
+        const isRoleSelected = Object.values(selectedSections).some(section => section.isSelected && section.role);
+
+        if (!isRoleSelected) {
+            window.alert('Please select a role for each section you have chosen.');
+            return;
+        }
+
         try {
             const roleData = Object.entries(selectedSections)
                 .filter(([secId, { isSelected, role }]) => isSelected && role)
@@ -61,16 +68,16 @@ function SelectRole() {
                     role
                 }));
 
-            console.log('Submitting roleData:', roleData);
-
             await selectRole(userId, roleData);
-            setMessage('Membership registration completed successfully!');
-            setTimeout(() => {
-                navigate('/login');
-            }, 2000);
+
+            // Show success popup
+            window.alert('Membership registration completed successfully!');
+
+            // Redirect after the popup closes
+            navigate('/login');
         } catch (error) {
             console.error('Role selection failed', error.response?.data || error.message);
-            setMessage('Failed to register membership. Please try again.');
+            window.alert('Failed to register membership. Please try again.');
         }
     };
 
@@ -116,7 +123,6 @@ function SelectRole() {
                     )}
                 </div>
                 <button type="submit">Submit</button>
-                {message && <p>{message}</p>}
             </form>
         </div>
     );
