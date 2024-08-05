@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 public class NotificationResponseDTO {
 
     @Builder
@@ -16,6 +18,7 @@ public class NotificationResponseDTO {
         String title;
         String description;
         String createdAt;
+        List<String> fileUrls;
     }
 
     @Builder

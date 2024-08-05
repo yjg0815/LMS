@@ -12,6 +12,7 @@ public class AssignmentResponseDTO {
     @AllArgsConstructor
     public static class getAssignInfoDTO {
 
+        String userId;
         String title;
         String description;
         String deadline;

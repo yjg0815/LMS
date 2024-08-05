@@ -1,66 +1,76 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { getNotificationDetail } from '../api/userApi';
-import { format } from 'date-fns';
-import { enUS } from 'date-fns/locale';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getNotificationDetail, downloadFile } from '../api/userApi';
 
 function NotificationDetailPage() {
     const { notiId } = useParams();
-    const navigate = useNavigate();
-    const location = useLocation();
     const [notification, setNotification] = useState(null);
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [secId, setSecId] = useState(new URLSearchParams(location.search).get('secId'));
 
     useEffect(() => {
-        const fetchNotificationDetail = async () => {
-            setLoading(true);
-            setError(null);
+        const fetchNotification = async () => {
             try {
                 const response = await getNotificationDetail(notiId);
                 setNotification(response.data.result);
-                // Ensure secId is retained from the query params
-                setSecId(new URLSearchParams(location.search).get('secId'));
             } catch (err) {
-                console.error('Error fetching notification detail:', err);
-                setError('Failed to fetch notification detail.');
-            } finally {
-                setLoading(false);
+                console.error('Error fetching notification details:', err);
+                setError('Failed to fetch notification details.');
             }
         };
 
-        fetchNotificationDetail();
-    }, [notiId, location.search]);
+        fetchNotification();
+    }, [notiId]);
 
-    const formatDate = (dateString) => {
-        const date = new Date(dateString);
-        return format(date, "MMMM d, yyyy 'at' HH:mm", { locale: enUS });
-    };
-
-    const handleBackToNotifications = () => {
-        if (secId) {
-            navigate(`/home/${secId}/notifications`);
-        } else {
-            navigate(-1); // Fallback to previous page if secId is not available
+    const handleDownload = async (fileUrl) => {
+        try {
+            // Encode the file URL before sending the request
+            //const encodedFileUrl = encodeURIComponent(fileUrl);
+            const response = await downloadFile(fileUrl, { responseType: 'blob' });
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const fileName = fileUrl.split('/').pop(); // Extract file name
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+            window.URL.revokeObjectURL(url); // Clean up the URL object
+        } catch (err) {
+            console.error('Error downloading file:', err);
+            setError('Failed to download file.');
         }
     };
 
     return (
-        <div className="notification-detail-page">
-            {loading && <p>Loading...</p>}
+        <div>
+            <h2>Notification Details</h2>
             {error && <p>{error}</p>}
-            {notification && (
+            {notification ? (
                 <div>
-                    <h2>{notification.title}</h2>
-                    <p><strong>Created by:</strong> {notification.userId}</p>
-                    <p><strong>Created:</strong> {formatDate(notification.createdAt)}</p>
-                    <p>{notification.description}</p>
+                    <h3>{notification.title}</h3>
+                    <p><strong>Description:</strong> {notification.description}</p>
+                    <p><strong>Created At:</strong> {notification.createdAt}</p>
+                    <p><strong>Created By:</strong> {notification.userId}</p>
+                    {notification.fileUrls && notification.fileUrls.length > 0 && (
+                        <div>
+                            <h4>Attached Files:</h4>
+                            <ul>
+                                {notification.fileUrls.map((fileUrl, index) => {
+                                    const fileName = fileUrl.split('/').pop();
+                                    return (
+                                        <li key={index}>
+                                            <span>{fileName}</span>
+                                            <button onClick={() => handleDownload(fileUrl)}>Download</button>
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
+                    )}
                 </div>
+            ) : (
+                <p>Loading...</p>
             )}
-            <div style={{ position: 'absolute', bottom: '20px', right: '20px' }}>
-                <button onClick={handleBackToNotifications}>Back to Notifications</button>
-            </div>
         </div>
     );
 }

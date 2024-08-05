@@ -3,6 +3,9 @@ package ALTERCAST.aLterMS.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -17,6 +20,10 @@ public class Notification extends BaseEntity {
     private String title;
 
     private String description;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "notification", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<NotificationFile> notificationFiles = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "section_id")

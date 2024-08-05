@@ -2,6 +2,7 @@ package ALTERCAST.aLterMS.converter;
 
 import ALTERCAST.aLterMS.domain.Assignment;
 import ALTERCAST.aLterMS.dto.AssignmentResponseDTO;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class AssignmentConverter {
 
@@ -11,6 +12,7 @@ public class AssignmentConverter {
                 .description(assignment.getDescription())
                 .point(assignment.getPoint()+"")
                 .deadline(assignment.getDeadline().toString())
+                .userId(SecurityContextHolder.getContext().getAuthentication().getName())
                 .build();
     }
 }

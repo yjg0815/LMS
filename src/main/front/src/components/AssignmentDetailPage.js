@@ -43,7 +43,8 @@ function AssignmentDetailPage() {
             {assignment && (
                 <div>
                     <h2>{assignment.title}</h2>
-                    <p>Created {formatDate(assignment.deadline)}</p>
+                    <p><strong>Created by:</strong> {assignment.userId}</p>
+                    <p><strong>Created:</strong> {formatDate(assignment.deadline)}</p>
                     <p><strong>Points:</strong> {assignment.point}</p>
                     <p>{assignment.description}</p>
                 </div>

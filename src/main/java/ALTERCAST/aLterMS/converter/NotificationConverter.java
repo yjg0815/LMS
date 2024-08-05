@@ -1,6 +1,7 @@
 package ALTERCAST.aLterMS.converter;
 
 import ALTERCAST.aLterMS.domain.Notification;
+import ALTERCAST.aLterMS.domain.NotificationFile;
 import ALTERCAST.aLterMS.domain.Section;
 import ALTERCAST.aLterMS.dto.NotificationRequestDTO;
 import ALTERCAST.aLterMS.dto.NotificationResponseDTO;
@@ -16,6 +17,7 @@ public class NotificationConverter {
                 .description(notification.getDescription())
                 .createdAt(notification.getCreatedAt().toString())
                 .userId(SecurityContextHolder.getContext().getAuthentication().getName())
+                .fileUrls(notification.getNotificationFiles().stream().map(NotificationFile::getFileUrl).toList())
                 .build();
     }
 
@@ -34,4 +36,12 @@ public class NotificationConverter {
                 .build();
 
     }
+
+    public static NotificationFile toNotificationFile(Notification notification, String fileUrls) {
+        return NotificationFile.builder()
+                .notification(notification)
+                .fileUrl(fileUrls)
+                .build();
+    }
+
 }

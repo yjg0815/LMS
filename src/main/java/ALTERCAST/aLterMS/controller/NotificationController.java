@@ -6,18 +6,25 @@ import ALTERCAST.aLterMS.converter.NotificationConverter;
 import ALTERCAST.aLterMS.domain.Notification;
 import ALTERCAST.aLterMS.dto.NotificationRequestDTO;
 import ALTERCAST.aLterMS.dto.NotificationResponseDTO;
+import ALTERCAST.aLterMS.service.NotificationFileService;
 import ALTERCAST.aLterMS.service.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/notifications")
 public class NotificationController {
     private final NotificationService notificationService;
+    private final NotificationFileService notificationFileService;
 
     @GetMapping("/{notiId}")
     @Operation(summary = "공지 정보")
@@ -29,8 +36,12 @@ public class NotificationController {
     @Operation(summary = "공지 작성", description = "공지를 작성한다, Instructor만 가능")
     @PreAuthorize("@PrivilegeEvaluator.hasPrivilege(#secId, @Privilege.INSTRUCTOR)")
     public ApiResponse<NotificationResponseDTO.createNotiResponseDTO> createNotification(@PathVariable(value = "secId") Long secId,
-                                                                                         @RequestBody @Valid NotificationRequestDTO.createNotiRequestDTO request) {
+                                                                                         @RequestPart(value = "request", required = false) @Valid NotificationRequestDTO.createNotiRequestDTO request,
+                                                                                         @ModelAttribute(value = "files") @Valid NotificationRequestDTO.createNotiFileRequestDTO files) throws IOException {
         Notification notification = notificationService.createNotification(secId, request);
+//        System.out.println(files.getFiles());
+//        System.out.println("Files Content-Type: " + files.getFiles().stream().map(MultipartFile::getContentType).toList());
+        notificationFileService.saveFiles(notification, files.getFiles());
         return ApiResponse.of(SuccessStatus.CREATE_NOTIFICATION, NotificationConverter.toCreateNotiResponseDTO(notification));
     }
 }

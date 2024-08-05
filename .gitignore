@@ -66,3 +66,9 @@ hs_err_pid*
 replay_pid*
 
 # End of https://www.toptal.com/developers/gitignore/api/java
+
+# 파일
+/saveFiles/
+bear.jpg
+중대 학사 가이드북.pdf
+Homework1 (2).pdf
