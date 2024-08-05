@@ -1,13 +1,15 @@
 // src/pages/NotificationPage.js
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { getNotifications } from '../api/userApi';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { getNotifications, getUserRoles } from '../api/userApi';
 
 function NotificationPage() {
     const { secId } = useParams();
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [roles, setRoles] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -24,8 +26,34 @@ function NotificationPage() {
             }
         };
 
+        const fetchUserRoles = async () => {
+            try {
+                const userRoles = await getUserRoles(); // Fetch the user roles
+                // Log the roles to verify
+                console.log('User roles:', userRoles);
+
+                if (Array.isArray(userRoles)) {
+                    setRoles(userRoles); // Set roles state if response is valid
+                } else {
+                    console.error('Unexpected response format:', userRoles);
+                    setError('Failed to fetch user roles.');
+                }
+            } catch (err) {
+                console.error('Error fetching user roles:', err);
+                setError('Failed to fetch user roles.');
+            }
+        };
+
         fetchNotifications();
+        fetchUserRoles();
     }, [secId]);
+
+    const handleCreateNotification = () => {
+        navigate(`/sections/${secId}/notifications/creation`);
+    };
+
+    // Check if user has instructor role
+    const isInstructor = roles.some(role => role.startsWith('ROLE_INSTRUCTOR'));
 
     return (
         <div className="notification-page">
@@ -47,6 +75,13 @@ function NotificationPage() {
                     !loading && <p>No notifications available.</p>
                 )}
             </div>
+            {isInstructor && (
+                <div className="create-notification-button">
+                    <button onClick={handleCreateNotification}>
+                        Create New Notification
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

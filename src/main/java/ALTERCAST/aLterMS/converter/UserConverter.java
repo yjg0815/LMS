@@ -62,4 +62,7 @@ public class UserConverter {
         return UserResponseDTO.getUserRoleResultDTO.builder().roles(roles).build();
     }
 
+    public static UserResponseDTO.getUserAuthResultDTO toGetUserAuthResultDTO(List<String> roles) {
+        return UserResponseDTO.getUserAuthResultDTO.builder().roles(roles).build();
+    }
 }

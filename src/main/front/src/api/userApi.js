@@ -34,6 +34,23 @@ export const selectRole = (userId, roleData) => {
     return unauthenticatedClient.post(`/users/set/${userId}`, roleData);
 };
 
+// src/api/userApi.js
+export const getUserRoles = async () => {
+    try {
+        const response = await apiClient.get('/users/auth/roles'); // Call the correct endpoint
+        // Extract 'roles' from the nested 'result' object
+        if (response.data.isSuccess && response.data.result) {
+            return response.data.result.roles; // Return the roles array
+        } else {
+            throw new Error('Unexpected response format');
+        }
+    } catch (error) {
+        console.error('Error fetching user roles:', error);
+        throw error; // Propagate error to be handled by the caller
+    }
+};
+
+
 export const updateUserInfo = (data) => {
     return apiClient.put('/users', data);
 };
@@ -56,6 +73,10 @@ export const getNotifications = (secId) => {
 
 export const getNotificationDetail = (notiId) => {
     return apiClient.get(`notifications/${notiId}`);
+};
+
+export const createNotification = (secId, createNotiRequestDTO) => {
+    return apiClient.post(`/notifications/${secId}`, createNotiRequestDTO);
 };
 
 export const getLearnings = (secId) => {

@@ -3,14 +3,15 @@ package ALTERCAST.aLterMS.controller;
 import ALTERCAST.aLterMS.apiPayLoad.ApiResponse;
 import ALTERCAST.aLterMS.apiPayLoad.code.status.SuccessStatus;
 import ALTERCAST.aLterMS.converter.NotificationConverter;
+import ALTERCAST.aLterMS.domain.Notification;
+import ALTERCAST.aLterMS.dto.NotificationRequestDTO;
 import ALTERCAST.aLterMS.dto.NotificationResponseDTO;
 import ALTERCAST.aLterMS.service.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,5 +23,14 @@ public class NotificationController {
     @Operation(summary = "공지 정보")
     public ApiResponse<NotificationResponseDTO.getNotiInfoDTO> getNotificationDetail(@PathVariable(value = "notiId") Long notiId) {
         return ApiResponse.of(SuccessStatus.GET_SECTION_NOTIFICATIONS, NotificationConverter.toGetNotiInfoDTO(notificationService.getNotiInfo(notiId)));
+    }
+
+    @PostMapping("/{secId}")
+    @Operation(summary = "공지 작성", description = "공지를 작성한다, Instructor만 가능")
+    @PreAuthorize("@PrivilegeEvaluator.hasPrivilege(#secId, @Privilege.INSTRUCTOR)")
+    public ApiResponse<NotificationResponseDTO.createNotiResponseDTO> createNotification(@PathVariable(value = "secId") Long secId,
+                                                                                         @RequestBody @Valid NotificationRequestDTO.createNotiRequestDTO request) {
+        Notification notification = notificationService.createNotification(secId, request);
+        return ApiResponse.of(SuccessStatus.CREATE_NOTIFICATION, NotificationConverter.toCreateNotiResponseDTO(notification));
     }
 }

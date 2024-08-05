@@ -14,6 +14,7 @@ import ALTERCAST.aLterMS.repository.UserRepository;
 import ALTERCAST.aLterMS.repository.UserSectionRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -99,6 +101,19 @@ public class UserService {
             }
         }
         return authorities;
+    }
+
+    @Transactional
+    public List<String> getUserAuth() {
+        if (userRepository.findByUserId(userId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_USER);
+            // 해당 학생 없음
+        }
+        List<String> roles = getAuthorities(userRepository.findByUserId(userId).get().getId())
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .toList();
+        return roles;
     }
 
     @Transactional

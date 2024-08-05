@@ -11,6 +11,7 @@ import LearningPage from "./components/LearningPage";
 import AssignmentPage from "./components/AssignmentPage";
 import NotificationDetailPage from "./components/NotificationDetailPage";
 import AssignmentDetailPage from "./components/AssignmentDetailPage";
+import CreateNotificationPage from "./components/CreateNotificationPage";
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                 <Route path="/home/:secId/assignments" element={<AssignmentPage />} />
                 <Route path="/notifications/:notiId" element={<NotificationDetailPage />} />
                 <Route path="/assignments/:assignId" element={<AssignmentDetailPage />} />
+                <Route path="/sections/:secId/notifications/creation" element={<CreateNotificationPage />} />
             </Routes>
         </Router>
     );

@@ -28,12 +28,12 @@ public class CustomUserDetails implements UserDetails {
 
     /**
      * 해당 User의 권한 반환 <br>
-     * User는 프로젝트마다 다른 권한을 가지는데, Privilege 뒤에 TO_PROJECTNAME 을 붙여 프로젝트 별 권한을 구분한다
+     * User는 section마다 다른 권한을 가지는데, Privilege 뒤에 TO_SECTIONAME 을 붙여 SECTION 별 권한을 구분한다
      */
     @Override
     @Transactional
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // UserProject에서 해당 User의 Role을 전부 가져온다.
+        // UserSection에서 해당 User의 Role을 전부 가져온다.
         System.out.println("CustomUserDetails: getting authorities for user " + user.getUserId() + " (id: " + user.getId() + ")");
         authorities = userService.getAuthorities(user.getId());
         System.out.print("CustomUserDetails: got [ ");

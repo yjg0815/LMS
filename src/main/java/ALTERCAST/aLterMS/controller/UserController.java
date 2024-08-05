@@ -105,5 +105,10 @@ public class UserController {
         return ApiResponse.of(SuccessStatus.GET_ALL_SECTIONS, SectionConverter.toGetAllSectionsDTO(userService.getUserSections()));
     }
 
+    @GetMapping("/auth/roles")
+    @Operation(summary = "유저의 권한 가져오기")
+    public ApiResponse<UserResponseDTO.getUserAuthResultDTO> getUserAuth() {
+        return ApiResponse.of(SuccessStatus.GET_ROLE_INFO, UserConverter.toGetUserAuthResultDTO(userService.getUserAuth()));
+    }
 
 }

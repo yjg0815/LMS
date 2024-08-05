@@ -51,4 +51,12 @@ public class UserResponseDTO {
         Roles roles;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class getUserAuthResultDTO {
+        List<String> roles;
+    }
+
 }
