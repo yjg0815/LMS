@@ -1,10 +1,10 @@
 // src/pages/AssignmentPage.js
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { getAssignments } from '../api/userApi';
+import React, {useEffect, useState} from 'react';
+import {Link, useParams} from 'react-router-dom';
+import {getAssignments} from '../api/userApi';
 
 function AssignmentPage() {
-    const { secId } = useParams();
+    const {secId} = useParams();
     const [assignments, setAssignments] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);

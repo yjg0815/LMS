@@ -82,7 +82,7 @@ public class UserController {
     @PostMapping("/set/{userId}")
     @Operation(summary = "역할 및 강의 선택", description = "교수 or 학생 선택 and section 선택")
     public ApiResponse<List<UserResponseDTO.UserSectionResultDTO>> selectRole(@PathVariable(value = "userId") String userId,
-                                                                        @RequestBody @Valid List<UserRequestDTO.SelectUserSectionDto> request) {
+                                                                              @RequestBody @Valid List<UserRequestDTO.SelectUserSectionDto> request) {
         List<UserSection> userSections = userService.createUserSection(userId, request);
         return ApiResponse.of(SuccessStatus.CREATE_USER_SECTION, UserConverter.toUserSectionResultDTO(userSections));
     }
@@ -95,7 +95,7 @@ public class UserController {
 
     @GetMapping("/set/sections")
     @Operation(summary = "전체 section 가져오기")
-    public ApiResponse<List<SectionResponseDTO.getAllSectionsDTO>> fetchSections(){
+    public ApiResponse<List<SectionResponseDTO.getAllSectionsDTO>> fetchSections() {
         return ApiResponse.of(SuccessStatus.GET_ALL_SECTIONS, SectionConverter.toGetAllSectionsDTO(sectionService.getAllSections()));
     }
 

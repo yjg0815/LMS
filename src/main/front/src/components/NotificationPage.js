@@ -1,10 +1,10 @@
 // src/pages/NotificationPage.js
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
-import { getNotifications, getUserRoles } from '../api/userApi';
+import React, {useEffect, useState} from 'react';
+import {Link, useNavigate, useParams} from 'react-router-dom';
+import {getNotifications, getUserRoles} from '../api/userApi';
 
 function NotificationPage() {
-    const { secId } = useParams();
+    const {secId} = useParams();
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);

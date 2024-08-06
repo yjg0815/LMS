@@ -1,10 +1,10 @@
 // src/components/LearningPage.js
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getLearnings } from '../api/userApi';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import {getLearnings} from '../api/userApi';
 
 function LearningPage() {
-    const { secId } = useParams();
+    const {secId} = useParams();
     const [learnings, setLearnings] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);

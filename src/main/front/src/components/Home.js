@@ -1,7 +1,7 @@
 // src/components/Home.js
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getUserSections } from '../api/userApi';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {getUserSections} from '../api/userApi';
 import '../styles/home.css';
 
 function Home() {

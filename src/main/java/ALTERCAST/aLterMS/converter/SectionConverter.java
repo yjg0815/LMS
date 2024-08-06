@@ -5,7 +5,6 @@ import ALTERCAST.aLterMS.domain.Learning;
 import ALTERCAST.aLterMS.domain.Notification;
 import ALTERCAST.aLterMS.domain.Section;
 import ALTERCAST.aLterMS.dto.SectionResponseDTO;
-import ALTERCAST.aLterMS.dto.UserResponseDTO;
 
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class SectionConverter {
                         .id(each.getId())
                         .title(each.getTitle())
                         .description(each.getDescription())
-                        .point(each.getPoint()+"")
+                        .point(each.getPoint() + "")
                         .deadline(each.getDescription())
                         .build())
                 .toList();

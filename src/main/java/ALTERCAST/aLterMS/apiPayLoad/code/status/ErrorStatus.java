@@ -12,12 +12,12 @@ public enum ErrorStatus implements BaseErrorCode {
     /**
      * ENUM(Http, code, message)
      * enum 상수에 추가적으로 멤버를 줘서 데이터 관리 용이하게
-     *
+     * <p>
      * 1. common 에러는 COMMON000 으로 둔다. <- 잘 안쓰지만 마땅하지 않을 때 사용
      * 2. 관련된 경우마다 code에 명시적으로 표현한다.
-     * 	- 예를 들어 멤버 관련이면 MEMBER001 이런 식으로
+     * - 예를 들어 멤버 관련이면 MEMBER001 이런 식으로
      * 3. 2번에 이어서 4000번대를 붙인다. 서버측 잘못은 그냥 COMMON 에러의 서버 에러를 쓰면 됨.
-     * 	- MEMBER400_1 아니면 MEMBER4001 이런 식으로
+     * - MEMBER400_1 아니면 MEMBER4001 이런 식으로
      */
 
     // 일반적인 응답
@@ -45,9 +45,7 @@ public enum ErrorStatus implements BaseErrorCode {
     NOT_EXIST_SECTION(HttpStatus.NOT_FOUND, "SEC4001", "존재하지 않는 클래스 입니다."),
     NOT_EXIST_NOTIFICATION(HttpStatus.NOT_FOUND, "SEC4002", "존재하지 않는 공지 입니다."),
     NOT_EXIST_ASSIGNMENT(HttpStatus.NOT_FOUND, "SEC4003", "존재하지 않는 과제 입니다."),
-    NOT_EXIST_LEARNING(HttpStatus.NOT_FOUND, "SEC4004", "존재하지 않는 주차 입니다.")
-    ;
-
+    NOT_EXIST_LEARNING(HttpStatus.NOT_FOUND, "SEC4004", "존재하지 않는 주차 입니다.");
 
 
     private final HttpStatus httpStatus;

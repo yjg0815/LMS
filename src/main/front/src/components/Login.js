@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const Login = () => {
     const [userId, setUserId] = useState('');
@@ -11,7 +11,7 @@ const Login = () => {
         event.preventDefault();
 
         try {
-            console.log('Logging in with:', { userId, password });
+            console.log('Logging in with:', {userId, password});
 
             const response = await axios.post('http://localhost:8080/users/login', {
                 userId,

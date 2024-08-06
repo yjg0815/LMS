@@ -11,7 +11,7 @@ public class TempResponse {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class TempTestDTO{
+    public static class TempTestDTO {
         String testString;
     }
 
@@ -19,7 +19,7 @@ public class TempResponse {
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class TempExceptionDTO{
+    public static class TempExceptionDTO {
         Integer flag;
     }
 }

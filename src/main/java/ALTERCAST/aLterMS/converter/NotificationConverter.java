@@ -7,8 +7,6 @@ import ALTERCAST.aLterMS.dto.NotificationRequestDTO;
 import ALTERCAST.aLterMS.dto.NotificationResponseDTO;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.time.LocalDateTime;
-
 public class NotificationConverter {
 
     public static NotificationResponseDTO.getNotiInfoDTO toGetNotiInfoDTO(Notification notification) {

@@ -10,7 +10,7 @@ import java.util.List;
 public class NotificationRequestDTO {
 
     @Getter
-    public static class createNotiRequestDTO{
+    public static class createNotiRequestDTO {
         String title;
         String description;
     }

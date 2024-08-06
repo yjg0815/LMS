@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { fetchRoles, fetchSections, selectRole } from '../api/userApi';
+import React, {useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {fetchRoles, fetchSections, selectRole} from '../api/userApi';
 
 function SelectRole() {
-    const { userId } = useParams();
+    const {userId} = useParams();
     const [roles, setRoles] = useState([]);
     const [sections, setSections] = useState([]);
     const [selectedSections, setSelectedSections] = useState({});
@@ -62,8 +62,8 @@ function SelectRole() {
 
         try {
             const roleData = Object.entries(selectedSections)
-                .filter(([secId, { isSelected, role }]) => isSelected && role)
-                .map(([secId, { role }]) => ({
+                .filter(([secId, {isSelected, role}]) => isSelected && role)
+                .map(([secId, {role}]) => ({
                     secId: parseInt(secId, 10),
                     role
                 }));
@@ -89,7 +89,7 @@ function SelectRole() {
                     <h3>Select Your Sections and Roles</h3>
                     {sections.length > 0 ? (
                         sections.map((section) => (
-                            <div key={section.id} style={{ marginBottom: '10px' }}>
+                            <div key={section.id} style={{marginBottom: '10px'}}>
                                 <label>
                                     <input
                                         type="checkbox"
@@ -100,7 +100,7 @@ function SelectRole() {
                                     {`${section.title} - Section ${section.secNum}`}
                                 </label>
                                 {selectedSections[section.id]?.isSelected && (
-                                    <div style={{ marginLeft: '20px' }}>
+                                    <div style={{marginLeft: '20px'}}>
                                         {roles.map((role) => (
                                             <label key={`${section.id}-${role.roleName}`}>
                                                 <input

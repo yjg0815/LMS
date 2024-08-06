@@ -1,9 +1,9 @@
 // src/components/SectionHome.js
 import React from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 
 function SectionHome() {
-    const { secId } = useParams();
+    const {secId} = useParams();
     const navigate = useNavigate();
 
     return (

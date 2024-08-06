@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { join } from '../api/userApi';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {join} from '../api/userApi';
 
 function Join() {
     const [formData, setFormData] = useState({

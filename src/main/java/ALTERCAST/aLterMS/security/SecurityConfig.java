@@ -44,7 +44,9 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
-    /**CORS 설정*/
+    /**
+     * CORS 설정
+     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -79,7 +81,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**")
                         .permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        .requestMatchers("/users/join","/users/login","users/set/**","/auth/**", "/oauth2/**")
+                        .requestMatchers("/users/join", "/users/login", "users/set/**", "/auth/**", "/oauth2/**")
                         .permitAll()
                         .requestMatchers("/", "/error", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js")
                         .permitAll()

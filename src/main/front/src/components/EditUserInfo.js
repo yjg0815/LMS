@@ -1,8 +1,8 @@
 // src/components/EditUserInfo.js
-import React, { useState } from 'react';
-import { updateUserInfo } from '../api/userApi';
+import React, {useState} from 'react';
+import {updateUserInfo} from '../api/userApi';
 
-function EditUserInfo({ userInfo, onSave, onCancel }) {
+function EditUserInfo({userInfo, onSave, onCancel}) {
     const [formData, setFormData] = useState({
         userId: userInfo.userId,
         name: userInfo.name,
@@ -13,7 +13,7 @@ function EditUserInfo({ userInfo, onSave, onCancel }) {
     const [error, setError] = useState(null);
 
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setFormData({...formData, [e.target.name]: e.target.value});
     };
 
     const handleSave = async () => {

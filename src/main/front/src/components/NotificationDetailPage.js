@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { getNotificationDetail, downloadFile } from '../api/userApi';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import {downloadFile, getNotificationDetail} from '../api/userApi';
 
 function NotificationDetailPage() {
-    const { notiId } = useParams();
+    const {notiId} = useParams();
     const [notification, setNotification] = useState(null);
     const [error, setError] = useState(null);
 
@@ -25,7 +25,7 @@ function NotificationDetailPage() {
         try {
             // Encode the file URL before sending the request
             //const encodedFileUrl = encodeURIComponent(fileUrl);
-            const response = await downloadFile(fileUrl, { responseType: 'blob' });
+            const response = await downloadFile(fileUrl, {responseType: 'blob'});
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const fileName = fileUrl.split('/').pop(); // Extract file name
             const link = document.createElement('a');

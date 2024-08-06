@@ -17,13 +17,13 @@ public class TempRestController {
     private final TempQueryService tempQueryService;
 
     @GetMapping("/test")
-    public ApiResponse<TempResponse.TempTestDTO> testAPI(){
+    public ApiResponse<TempResponse.TempTestDTO> testAPI() {
 
         return ApiResponse.onSuccess(TempConverter.toTempTestDTO());
     }
 
     @GetMapping("/exception")
-    public ApiResponse<TempResponse.TempExceptionDTO> exceptionAPI(@RequestParam Integer flag){
+    public ApiResponse<TempResponse.TempExceptionDTO> exceptionAPI(@RequestParam Integer flag) {
 
         return null;
     }

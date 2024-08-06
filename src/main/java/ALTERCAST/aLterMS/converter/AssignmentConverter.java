@@ -10,7 +10,7 @@ public class AssignmentConverter {
         return AssignmentResponseDTO.getAssignInfoDTO.builder()
                 .title(assignment.getTitle())
                 .description(assignment.getDescription())
-                .point(assignment.getPoint()+"")
+                .point(assignment.getPoint() + "")
                 .deadline(assignment.getDeadline().toString())
                 .userId(SecurityContextHolder.getContext().getAuthentication().getName())
                 .build();

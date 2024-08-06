@@ -1,10 +1,10 @@
 // src/contexts/AuthContext.js
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { getUserRoles } from '../api/userApi'; // Example API call
+import React, {createContext, useContext, useEffect, useState} from 'react';
+import {getUserRoles} from '../api/userApi'; // Example API call
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
     const [roles, setRoles] = useState([]);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
     }, []);
 
     return (
-        <AuthContext.Provider value={{ roles }}>
+        <AuthContext.Provider value={{roles}}>
             {children}
         </AuthContext.Provider>
     );

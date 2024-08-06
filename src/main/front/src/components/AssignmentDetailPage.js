@@ -1,12 +1,12 @@
 // src/pages/AssignmentDetailPage.js
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { getAssignmentDetail } from '../api/userApi';
-import { format } from 'date-fns';
-import { enUS } from 'date-fns/locale'; // Import the locale you need
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import {getAssignmentDetail} from '../api/userApi';
+import {format} from 'date-fns';
+import {enUS} from 'date-fns/locale'; // Import the locale you need
 
 function AssignmentDetailPage() {
-    const { assignId } = useParams();
+    const {assignId} = useParams();
     const [assignment, setAssignment] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -33,7 +33,7 @@ function AssignmentDetailPage() {
         // Parse the date string into a Date object
         const date = new Date(dateString);
         // Format the date into "July 31, 2024 at 10:24"
-        return format(date, "MMMM d, yyyy 'at' HH:mm", { locale: enUS });
+        return format(date, "MMMM d, yyyy 'at' HH:mm", {locale: enUS});
     };
 
     return (

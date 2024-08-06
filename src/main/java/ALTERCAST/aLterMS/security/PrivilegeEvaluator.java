@@ -1,14 +1,13 @@
 package ALTERCAST.aLterMS.security;
 
-import ALTERCAST.aLterMS.domain.UserSection;
 import ALTERCAST.aLterMS.domain.role.Privilege;
 import ALTERCAST.aLterMS.repository.SectionRepository;
 import ALTERCAST.aLterMS.repository.UserSectionRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 @Component("PrivilegeEvaluator")
 @RequiredArgsConstructor
