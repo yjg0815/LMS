@@ -14,7 +14,7 @@ public class NotificationConverter {
                 .title(notification.getTitle())
                 .description(notification.getDescription())
                 .createdAt(notification.getCreatedAt().toString())
-                .userId(SecurityContextHolder.getContext().getAuthentication().getName())
+                .writer(notification.getWriter())
                 .fileUrls(notification.getNotificationFiles().stream().map(NotificationFile::getFileUrl).toList())
                 .build();
     }
@@ -26,11 +26,12 @@ public class NotificationConverter {
 
     }
 
-    public static Notification toNotification(NotificationRequestDTO.createNotiRequestDTO request, Section section) {
+    public static Notification toNotification(NotificationRequestDTO.createNotiRequestDTO request, Section section, String writer) {
         return Notification.builder()
                 .title(request.getTitle())
                 .description(request.getDescription())
                 .section(section)
+                .writer(writer)
                 .build();
 
     }

@@ -14,7 +14,7 @@ public class NotificationResponseDTO {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class getNotiInfoDTO {
-        String userId;
+        String writer;
         String title;
         String description;
         String createdAt;

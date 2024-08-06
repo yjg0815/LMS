@@ -12,6 +12,7 @@ import AssignmentPage from "./components/AssignmentPage";
 import NotificationDetailPage from "./components/NotificationDetailPage";
 import AssignmentDetailPage from "./components/AssignmentDetailPage";
 import CreateNotificationPage from "./components/CreateNotificationPage";
+import CreateAssignmentPage from "./components/CreateAssignmentPage";
 
 function App() {
     return (
@@ -24,12 +25,13 @@ function App() {
                 <Route path="/home" element={<Home/>}/>
                 <Route path="/home/users" element={<UserInfo/>}/>
                 <Route path="/home/:secId" element={<SectionHome/>}/>
-                <Route path="/home/:secId/notifications" element={<NotificationPage/>}/>
-                <Route path="/home/:secId/learnings" element={<LearningPage/>}/>
-                <Route path="/home/:secId/assignments" element={<AssignmentPage/>}/>
+                <Route path="/sections/:secId/notifications" element={<NotificationPage/>}/>
+                <Route path="/sections/:secId/learnings" element={<LearningPage/>}/>
+                <Route path="/sections/:secId/assignments" element={<AssignmentPage/>}/>
                 <Route path="/notifications/:notiId" element={<NotificationDetailPage/>}/>
                 <Route path="/assignments/:assignId" element={<AssignmentDetailPage/>}/>
                 <Route path="/sections/:secId/notifications/creation" element={<CreateNotificationPage/>}/>
+                <Route path="/sections/:secId/assignments/creation" element={<CreateAssignmentPage/>}/>
             </Routes>
         </Router>
     );

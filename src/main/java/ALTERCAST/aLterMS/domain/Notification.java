@@ -21,6 +21,8 @@ public class Notification extends BaseEntity {
 
     private String description;
 
+    private String writer;
+
     @Builder.Default
     @OneToMany(mappedBy = "notification", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<NotificationFile> notificationFiles = new ArrayList<>();

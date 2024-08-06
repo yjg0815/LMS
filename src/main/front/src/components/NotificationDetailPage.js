@@ -1,11 +1,15 @@
-import React, {useEffect, useState} from 'react';
-import {useParams} from 'react-router-dom';
-import {downloadFile, getNotificationDetail} from '../api/userApi';
+// src/pages/NotificationDetailPage.js
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { downloadFile, getNotificationDetail } from '../api/userApi';
 
 function NotificationDetailPage() {
-    const {notiId} = useParams();
+    const { notiId } = useParams();
+    const { state } = useLocation(); // Retrieve state passed from CreateNotificationPage
+    const navigate = useNavigate();
     const [notification, setNotification] = useState(null);
     const [error, setError] = useState(null);
+    const secId = state?.secId; // Extract secId from state
 
     useEffect(() => {
         const fetchNotification = async () => {
@@ -23,21 +27,25 @@ function NotificationDetailPage() {
 
     const handleDownload = async (fileUrl) => {
         try {
-            // Encode the file URL before sending the request
-            //const encodedFileUrl = encodeURIComponent(fileUrl);
-            const response = await downloadFile(fileUrl, {responseType: 'blob'});
+            const response = await downloadFile(fileUrl, { responseType: 'blob' });
             const url = window.URL.createObjectURL(new Blob([response.data]));
-            const fileName = fileUrl.split('/').pop(); // Extract file name
+            const fileName = fileUrl.split('/').pop();
             const link = document.createElement('a');
             link.href = url;
             link.setAttribute('download', fileName);
             document.body.appendChild(link);
             link.click();
             link.remove();
-            window.URL.revokeObjectURL(url); // Clean up the URL object
+            window.URL.revokeObjectURL(url);
         } catch (err) {
             console.error('Error downloading file:', err);
             setError('Failed to download file.');
+        }
+    };
+
+    const handleBackToNotifications = () => {
+        if (secId) {
+            navigate(`/sections/${secId}/notifications`);
         }
     };
 
@@ -50,7 +58,7 @@ function NotificationDetailPage() {
                     <h3>{notification.title}</h3>
                     <p><strong>Description:</strong> {notification.description}</p>
                     <p><strong>Created At:</strong> {notification.createdAt}</p>
-                    <p><strong>Created By:</strong> {notification.userId}</p>
+                    <p><strong>Created By:</strong> {notification.writer}</p>
                     {notification.fileUrls && notification.fileUrls.length > 0 && (
                         <div>
                             <h4>Attached Files:</h4>
@@ -67,6 +75,7 @@ function NotificationDetailPage() {
                             </ul>
                         </div>
                     )}
+                    <button onClick={handleBackToNotifications}>Back to Notifications</button>
                 </div>
             ) : (
                 <p>Loading...</p>

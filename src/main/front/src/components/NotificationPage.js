@@ -1,10 +1,10 @@
 // src/pages/NotificationPage.js
-import React, {useEffect, useState} from 'react';
-import {Link, useNavigate, useParams} from 'react-router-dom';
-import {getNotifications, getUserRoles} from '../api/userApi';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { getNotifications, getUserRoles } from '../api/userApi';
 
 function NotificationPage() {
-    const {secId} = useParams();
+    const { secId } = useParams(); // Extract secId from URL params
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -28,8 +28,7 @@ function NotificationPage() {
 
         const fetchUserRoles = async () => {
             try {
-                const userRoles = await getUserRoles(); // Fetch the user roles
-                // Log the roles to verify
+                const userRoles = await getUserRoles(); // Fetch user roles
                 console.log('User roles:', userRoles);
 
                 if (Array.isArray(userRoles)) {
@@ -55,6 +54,10 @@ function NotificationPage() {
     // Check if user has instructor role
     const isInstructor = roles.some(role => role.startsWith('ROLE_INSTRUCTOR'));
 
+    const handleBackToHome = () => {
+        navigate(`/home/${secId}`);
+    };
+
     return (
         <div className="notification-page">
             {loading && <p>Loading...</p>}
@@ -65,7 +68,7 @@ function NotificationPage() {
                     <ul>
                         {notifications.map((notification) => (
                             <li key={notification.id}>
-                                <Link to={`/notifications/${notification.id}`} className="clickable">
+                                <Link to={`/notifications/${notification.id}`} state={{ secId }} className="clickable">
                                     {notification.title}
                                 </Link>
                             </li>
@@ -82,6 +85,11 @@ function NotificationPage() {
                     </button>
                 </div>
             )}
+            <div className="back-to-home-button">
+                <button onClick={handleBackToHome}>
+                    Back to Home
+                </button>
+            </div>
         </div>
     );
 }

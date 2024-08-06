@@ -1,7 +1,7 @@
 // src/components/UserInfo.js
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { getUserInfo, deleteUserInfo } from '../api/userApi';
+import React, {useEffect, useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {deleteUserInfo, getUserInfo} from '../api/userApi';
 import EditUserInfo from './EditUserInfo';
 import '../styles/userInfo.css';
 

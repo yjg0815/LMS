@@ -9,6 +9,7 @@ import ALTERCAST.aLterMS.dto.NotificationRequestDTO;
 import ALTERCAST.aLterMS.repository.NotificationFileRepository;
 import ALTERCAST.aLterMS.repository.NotificationRepository;
 import ALTERCAST.aLterMS.repository.SectionRepository;
+import ALTERCAST.aLterMS.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +25,7 @@ public class NotificationService {
     private final NotificationRepository notificationRepository;
     private final NotificationFileRepository notificationFileRepository;
     private final SectionRepository sectionRepository;
+    private final UserRepository userRepository;
     private final FileService fileService;
     private String userId;
 
@@ -39,11 +41,18 @@ public class NotificationService {
 
     @Transactional
     public Notification createNotification(Long secId, NotificationRequestDTO.createNotiRequestDTO request) {
-        userId = SecurityContextHolder.getContext().getAuthentication().getName();
         if (sectionRepository.findById(secId).isEmpty()) {
             throw new TempHandler(ErrorStatus.NOT_EXIST_SECTION);
         }
-        Notification notification = NotificationConverter.toNotification(request, sectionRepository.findById(secId).get());
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (userRepository.findByUserId(userId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_USER);
+            // 해당 학생 없음
+        }
+        String writer = userRepository.findByUserId(userId).get().getName();
+
+        Notification notification = NotificationConverter.toNotification(request, sectionRepository.findById(secId).get(),writer);
+
 
         return notificationRepository.save(notification);
     }

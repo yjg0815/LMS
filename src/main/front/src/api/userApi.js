@@ -75,20 +75,10 @@ export const getNotificationDetail = (notiId) => {
     return apiClient.get(`notifications/${notiId}`);
 };
 
-// export const createNotification = (secId, createNotiRequestDTO) => {
-//     return apiClient.post(`/notifications/${secId}`, createNotiRequestDTO);
-// };
 export const createNotification = async (secId, formData) => {
     return apiClient.post(`/notifications/${secId}`, formData);
 };
 
-// Download file function
-// export const downloadFile = async (fileUrl) => {
-//     return apiClient.get(`/files`, {
-//         params: { fileUrl },
-//         responseType: 'blob',
-//     });
-// };
 export const downloadFile = (fileUrl, config) => {
     return apiClient.get(`http://localhost:8080/files?fileUrl=${fileUrl}`, config);
 };
@@ -102,4 +92,7 @@ export const getAssignments = (secId) => {
 };
 export const getAssignmentDetail = (assignId) => {
     return apiClient.get(`assignments/${assignId}`);
+};
+export const createAssignment = async (secId, formData) => {
+    return apiClient.post(`/assignments/${secId}`, formData);
 };

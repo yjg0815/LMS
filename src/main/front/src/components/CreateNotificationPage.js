@@ -1,40 +1,38 @@
-import React, {useState} from 'react';
-import {useNavigate, useParams} from 'react-router-dom';
-import {createNotification} from '../api/userApi';
+// src/pages/CreateNotificationPage.js
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { createNotification } from '../api/userApi';
 
 function CreateNotificationPage() {
-    const {secId} = useParams();
+    const { secId } = useParams();
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [files, setFiles] = useState([]);
     const [error, setError] = useState(null);
 
-    // File input change handler
     const handleFileChange = (e) => {
         setFiles(e.target.files);
     };
 
-    // Form submit handler
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
 
         const formData = new FormData();
+        const requestData = JSON.stringify({ title, description });
+        formData.append('request', new Blob([requestData], { type: 'application/json' }));
 
-        // Add JSON data as a string to FormData
-        const requestData = JSON.stringify({title, description});
-        formData.append('request', new Blob([requestData], {type: 'application/json'}));
-
-        // Add files
         for (const file of files) {
             formData.append('files', file);
         }
 
         try {
             const response = await createNotification(secId, formData);
-            const {notiId} = response.data.result;
-            navigate(`/notifications/${notiId}`);
+            const { notiId } = response.data.result;
+
+            // Pass secId in the state
+            navigate(`/notifications/${notiId}`, { state: { secId } });
         } catch (err) {
             console.error('Error creating notification:', err);
             setError('Failed to create notification.');

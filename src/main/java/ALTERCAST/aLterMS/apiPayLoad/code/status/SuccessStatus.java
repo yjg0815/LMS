@@ -37,7 +37,10 @@ public enum SuccessStatus implements BaseCode {
 
 
     //Noti
-    CREATE_NOTIFICATION(HttpStatus.OK, "NOTI2001", "공지 작성 성공");
+    CREATE_NOTIFICATION(HttpStatus.CREATED, "NOTI2001", "공지 작성 성공"),
+
+    //Assignment
+    CREATE_ASSIGNMENT(HttpStatus.CREATED, "ASSIGN2001", "과제 작성 성공");
 
 
     private final HttpStatus httpStatus;
