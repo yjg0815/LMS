@@ -6,7 +6,6 @@ import ALTERCAST.aLterMS.converter.NotificationConverter;
 import ALTERCAST.aLterMS.domain.Notification;
 import ALTERCAST.aLterMS.dto.NotificationRequestDTO;
 import ALTERCAST.aLterMS.dto.NotificationResponseDTO;
-import ALTERCAST.aLterMS.service.NotificationFileService;
 import ALTERCAST.aLterMS.service.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
@@ -24,7 +23,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/notifications")
 public class NotificationController {
     private final NotificationService notificationService;
-    private final NotificationFileService notificationFileService;
+    //private final NotificationFileService notificationFileService;
 
     @GetMapping("/{notiId}")
     @Operation(summary = "공지 정보")
@@ -39,9 +38,7 @@ public class NotificationController {
                                                                                          @RequestPart(value = "request", required = false) @Valid NotificationRequestDTO.createNotiRequestDTO request,
                                                                                          @ModelAttribute(value = "files") @Valid NotificationRequestDTO.createNotiFileRequestDTO files) throws IOException {
         Notification notification = notificationService.createNotification(secId, request);
-//        System.out.println(files.getFiles());
-//        System.out.println("Files Content-Type: " + files.getFiles().stream().map(MultipartFile::getContentType).toList());
-        notificationFileService.saveFiles(notification, files.getFiles());
+        notificationService.saveNotificationFiles(notification, files.getFiles());
         return ApiResponse.of(SuccessStatus.CREATE_NOTIFICATION, NotificationConverter.toCreateNotiResponseDTO(notification));
     }
 }

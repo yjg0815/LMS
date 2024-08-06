@@ -1,5 +1,6 @@
 package ALTERCAST.aLterMS.controller;
 
+import ALTERCAST.aLterMS.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,38 +22,18 @@ import java.nio.file.Paths;
 @RestController
 @RequiredArgsConstructor
 public class FileDownloadController {
-    private final Logger logger = LoggerFactory.getLogger(FileDownloadController.class);
+    //private final Logger logger = LoggerFactory.getLogger(FileDownloadController.class);
+    private final FileService fileService;
 
     @GetMapping("/files")
-    public ResponseEntity<Resource> downloadFile(@RequestParam String fileUrl) {
-        try {
-            // "saveFiles" 뒤에 슬래시 추가
-            if (fileUrl.startsWith("/saveFiles") && !fileUrl.startsWith("/saveFiles/")) {
-                fileUrl = fileUrl.replace("/saveFiles", "/saveFiles/");
-            }
-
-            // 절대 경로 생성
-            Path filePath = Paths.get("").toAbsolutePath().resolve(fileUrl.substring(1)); // 시작 슬래시 제거
-            Resource resource = new UrlResource(filePath.toUri());
-
-            // 리소스 존재 및 접근 가능 여부 확인
-            if (resource.exists() && resource.isReadable()) {
-                // 디버깅을 위한 로그 출력
-                System.out.println("Requested file: " + filePath.toString());
-                System.out.println("Resource exists: " + resource.exists());
-                System.out.println("Resource is readable: " + resource.isReadable());
-
-                // 헤더 설정 및 리소스 반환
-                return ResponseEntity.ok()
-                        .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                        .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filePath.getFileName().toString() + "\"")
-                        .body(resource);
-            } else {
-                return ResponseEntity.notFound().build();
-            }
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public ResponseEntity<Resource> downloadFile(@RequestParam String fileUrl) throws MalformedURLException {
+        Resource resource = fileService.downloadFiles(fileUrl);
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                //파일 다운로드에 사용되는 contentType(다양한 파일 타입 다룰 때 사용)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileUrl+ "\"")
+                // attachment => response를 다운로드하여 로컬에 저장하라는 신호
+                .body(resource);
     }
 
 }
