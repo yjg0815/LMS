@@ -3,6 +3,9 @@ package ALTERCAST.aLterMS.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Builder
@@ -20,7 +23,15 @@ public class Submit extends BaseEntity {
     private boolean state;
     // 제출 여부
 
-    @ManyToOne
+    private String comment; // 짧은 코멘트
+
+    private String writer;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "submit", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<SubmitFile> submitFiles = new ArrayList<>();
+
+    @OneToOne
     @JoinColumn(name = "assign_id")
     private Assignment assignment;
 

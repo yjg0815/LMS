@@ -33,7 +33,7 @@ public class ApiResponse<T> {
     private T result;
 
 
-    //로그인 성공
+    //성공
     public static <T> ApiResponse<T> onSuccess(T result) {
         return new ApiResponse<>(true, SuccessStatus._OK.getCode(), SuccessStatus._OK.getMessage(), result);
     }
@@ -41,6 +41,11 @@ public class ApiResponse<T> {
     // 성공한 경우 응답 생성
     public static <T> ApiResponse<T> of(BaseCode code, T result) {
         return new ApiResponse<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getMessage(), result);
+    }
+
+    // 성공한 경우 응답 생성
+    public static <T> ApiResponse<T> ofNoting(BaseCode code) {
+        return new ApiResponse<>(true, code.getReasonHttpStatus().getCode(), code.getReasonHttpStatus().getMessage(), null);
     }
 
 
