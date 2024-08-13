@@ -59,12 +59,14 @@ public class AssignmentService {
     }
 
     @Transactional
-    public void saveAssignmentFiles(Assignment assignment, List<MultipartFile> files) throws IOException {
-        for (MultipartFile file : files) {
-            String fileName = fileService.saveFiles(file);
-            AssignmentFile assignmentFile = AssignmentConverter.toAssignmentFile(assignment, "/saveFiles" + fileName);
+    public void saveAssignmentFiles(Assignment assignment, AssignmentRequestDTO.createAssignFileRequestDTO files) throws IOException {
+        if (files.getFiles() != null) {
+            for (MultipartFile file : files.getFiles()) {
+                String fileName = fileService.saveFiles(file);
+                AssignmentFile assignmentFile = AssignmentConverter.toAssignmentFile(assignment, "/saveFiles" + fileName);
 
-            assignmentFileRepository.save(assignmentFile);
+                assignmentFileRepository.save(assignmentFile);
+            }
         }
     }
 

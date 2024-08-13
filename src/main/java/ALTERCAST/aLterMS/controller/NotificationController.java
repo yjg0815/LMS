@@ -34,7 +34,7 @@ public class NotificationController {
                                                                                          @RequestPart(value = "request", required = false) @Valid NotificationRequestDTO.createNotiRequestDTO request,
                                                                                          @ModelAttribute(value = "files") @Valid NotificationRequestDTO.createNotiFileRequestDTO files) throws IOException {
         Notification notification = notificationService.createNotification(secId, request);
-        notificationService.saveNotificationFiles(notification, files.getFiles());
+        notificationService.saveNotificationFiles(notification, files);
         return ApiResponse.of(SuccessStatus.CREATE_NOTIFICATION, NotificationConverter.toCreateNotiResponseDTO(notification));
     }
 }

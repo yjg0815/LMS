@@ -58,13 +58,16 @@ public class NotificationService {
     }
 
     @Transactional
-    public void saveNotificationFiles(Notification notification, List<MultipartFile> files) throws IOException {
-        for (MultipartFile file : files) {
-            String fileName = fileService.saveFiles(file);
-            NotificationFile notificationFile = NotificationConverter.toNotificationFile(notification, "/saveFiles" + fileName);
+    public void saveNotificationFiles(Notification notification, NotificationRequestDTO.createNotiFileRequestDTO files) throws IOException {
+        if (files.getFiles() != null) {
+            for (MultipartFile file : files.getFiles()) {
+                String fileName = fileService.saveFiles(file);
+                NotificationFile notificationFile = NotificationConverter.toNotificationFile(notification, "/saveFiles" + fileName);
 
-            notificationFileRepository.save(notificationFile);
+                notificationFileRepository.save(notificationFile);
+            }
         }
+
     }
 
     // 공지가 삭제 됐을 때, 파일 같이 날리는거

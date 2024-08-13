@@ -36,7 +36,7 @@ public class AssignmentController {
                                                                                          @RequestPart(value = "request", required = false) @Valid AssignmentRequestDTO.createAssignRequestDTO request,
                                                                                          @ModelAttribute(value = "files") @Valid AssignmentRequestDTO.createAssignFileRequestDTO files) throws IOException {
         Assignment assignment = assignmentService.createAssignment(secId, request);
-        assignmentService.saveAssignmentFiles(assignment, files.getFiles());
+        assignmentService.saveAssignmentFiles(assignment, files);
         return ApiResponse.of(SuccessStatus.CREATE_ASSIGNMENT, AssignmentConverter.toCreateAssignResponseDTO(assignment));
     }
 }

@@ -56,9 +56,9 @@ function NotificationDetailPage() {
             {notification ? (
                 <div>
                     <h3>{notification.title}</h3>
-                    <p><strong>Description:</strong> {notification.description}</p>
                     <p><strong>Created At:</strong> {notification.createdAt}</p>
                     <p><strong>Created By:</strong> {notification.writer}</p>
+                    <p>{notification.description}</p>
                     {notification.fileUrls && notification.fileUrls.length > 0 && (
                         <div>
                             <h4>Attached Files:</h4>
