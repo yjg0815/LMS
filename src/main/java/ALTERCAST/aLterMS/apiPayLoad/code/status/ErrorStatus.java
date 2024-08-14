@@ -45,7 +45,11 @@ public enum ErrorStatus implements BaseErrorCode {
     NOT_EXIST_SECTION(HttpStatus.NOT_FOUND, "SEC4001", "존재하지 않는 클래스 입니다."),
     NOT_EXIST_NOTIFICATION(HttpStatus.NOT_FOUND, "SEC4002", "존재하지 않는 공지 입니다."),
     NOT_EXIST_ASSIGNMENT(HttpStatus.NOT_FOUND, "SEC4003", "존재하지 않는 과제 입니다."),
-    NOT_EXIST_LEARNING(HttpStatus.NOT_FOUND, "SEC4004", "존재하지 않는 주차 입니다.");
+    NOT_EXIST_LEARNING(HttpStatus.NOT_FOUND, "SEC4004", "존재하지 않는 주차 입니다."),
+
+    //Submit
+    NOT_EXIST_SUBMIT(HttpStatus.NOT_FOUND, "SUB4001", "존재하지 않는 제출물입니다.");
+
 
 
     private final HttpStatus httpStatus;

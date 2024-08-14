@@ -59,15 +59,25 @@ public class AssignmentService {
     }
 
     @Transactional
-    public void saveAssignmentFiles(Assignment assignment, AssignmentRequestDTO.createAssignFileRequestDTO files) throws IOException {
-        if (files.getFiles() != null) {
-            for (MultipartFile file : files.getFiles()) {
+    public void saveAssignmentFiles(Assignment assignment, List<MultipartFile> files) throws IOException {
+//        if (files.getFiles() != null) {
+//            for (MultipartFile file : files.getFiles()) {
+//                String fileName = fileService.saveFiles(file);
+//                AssignmentFile assignmentFile = AssignmentConverter.toAssignmentFile(assignment, "/saveFiles" + fileName);
+//
+//                assignmentFileRepository.save(assignmentFile);
+//            }
+//        }
+        if (files != null) {
+            for (MultipartFile file : files) {
                 String fileName = fileService.saveFiles(file);
                 AssignmentFile assignmentFile = AssignmentConverter.toAssignmentFile(assignment, "/saveFiles" + fileName);
 
                 assignmentFileRepository.save(assignmentFile);
+
             }
         }
+
     }
 
     // 과제가 삭제 됐을 때, 파일 같이 날리는거

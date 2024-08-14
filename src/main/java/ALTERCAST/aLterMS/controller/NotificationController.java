@@ -10,10 +10,13 @@ import ALTERCAST.aLterMS.service.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,12 +30,12 @@ public class NotificationController {
         return ApiResponse.of(SuccessStatus.GET_SECTION_NOTIFICATIONS, NotificationConverter.toGetNotiInfoDTO(notificationService.getNotiInfo(notiId)));
     }
 
-    @PostMapping("/{secId}")
+    @PostMapping(value = "/{secId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "공지 작성", description = "공지를 작성한다, Instructor만 가능")
     @PreAuthorize("@PrivilegeEvaluator.hasPrivilege(#secId, @Privilege.INSTRUCTOR)")
     public ApiResponse<NotificationResponseDTO.createNotiResponseDTO> createNotification(@PathVariable(value = "secId") Long secId,
                                                                                          @RequestPart(value = "request", required = false) @Valid NotificationRequestDTO.createNotiRequestDTO request,
-                                                                                         @ModelAttribute(value = "files") @Valid NotificationRequestDTO.createNotiFileRequestDTO files) throws IOException {
+                                                                                         @RequestPart(value = "files",  required = false) @Valid List<MultipartFile> files) throws IOException {
         Notification notification = notificationService.createNotification(secId, request);
         notificationService.saveNotificationFiles(notification, files);
         return ApiResponse.of(SuccessStatus.CREATE_NOTIFICATION, NotificationConverter.toCreateNotiResponseDTO(notification));

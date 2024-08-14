@@ -58,9 +58,9 @@ public class NotificationService {
     }
 
     @Transactional
-    public void saveNotificationFiles(Notification notification, NotificationRequestDTO.createNotiFileRequestDTO files) throws IOException {
-        if (files.getFiles() != null) {
-            for (MultipartFile file : files.getFiles()) {
+    public void saveNotificationFiles(Notification notification, List<MultipartFile> files) throws IOException {
+        if (files != null) {
+            for (MultipartFile file : files) {
                 String fileName = fileService.saveFiles(file);
                 NotificationFile notificationFile = NotificationConverter.toNotificationFile(notification, "/saveFiles" + fileName);
 

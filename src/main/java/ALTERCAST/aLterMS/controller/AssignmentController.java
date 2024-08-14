@@ -10,10 +10,14 @@ import ALTERCAST.aLterMS.service.AssignmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,12 +31,12 @@ public class AssignmentController {
         return ApiResponse.of(SuccessStatus.GET_SECTION_ASSIGNMENTS, AssignmentConverter.toGetAssignInfoDTO(assignmentService.getAssignInfo(assignId)));
     }
 
-    @PostMapping("/{secId}")
+    @PostMapping(value = "/{secId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "과제 올리기", description = "과제를 올린다, Instructor만 가능")
     @PreAuthorize("@PrivilegeEvaluator.hasPrivilege(#secId, @Privilege.INSTRUCTOR)")
     public ApiResponse<AssignmentResponseDTO.createAssignResponseDTO> createAssignment(@PathVariable(value = "secId") Long secId,
                                                                                        @RequestPart(value = "request", required = false) @Valid AssignmentRequestDTO.createAssignRequestDTO request,
-                                                                                       @ModelAttribute(value = "files") @Valid AssignmentRequestDTO.createAssignFileRequestDTO files) throws IOException {
+                                                                                       @RequestPart(value = "files", required = false) @Valid List<MultipartFile> files) throws IOException {
         Assignment assignment = assignmentService.createAssignment(secId, request);
         assignmentService.saveAssignmentFiles(assignment, files);
         return ApiResponse.of(SuccessStatus.CREATE_ASSIGNMENT, AssignmentConverter.toCreateAssignResponseDTO(assignment));
