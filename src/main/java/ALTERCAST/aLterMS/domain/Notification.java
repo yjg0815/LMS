@@ -38,4 +38,9 @@ public class Notification extends BaseEntity {
         this.section = section;
         section.getNotifications().add(this);
     }
+
+    public void update(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
 }

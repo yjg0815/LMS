@@ -79,6 +79,14 @@ export const createNotification = async (secId, formData) => {
     return apiClient.post(`/notifications/${secId}`, formData);
 };
 
+export const updateNotification = async (notiId, formData) => {
+    return apiClient.put(`/notifications/${notiId}`, formData)
+};
+
+export const deleteNotification = async (notiId) => {
+    return apiClient.delete(`notifications/${notiId}`)
+}
+
 export const downloadFile = (fileUrl, config) => {
     return apiClient.get(`http://localhost:8080/files?fileUrl=${fileUrl}`, config);
 };
@@ -96,3 +104,9 @@ export const getAssignmentDetail = (assignId) => {
 export const createAssignment = async (secId, formData) => {
     return apiClient.post(`/assignments/${secId}`, formData);
 };
+export const updateAssignment = async (assignId, formData) => {
+    return apiClient.put(`/assignments/${assignId}`, formData)
+};
+export const deleteAssignment = async (assignId) => {
+    return apiClient.delete(`assignments/${assignId}`)
+}

@@ -50,7 +50,7 @@ public class SectionConverter {
                         .title(each.getTitle())
                         .description(each.getDescription())
                         .point(each.getPoint() + "")
-                        .deadline(each.getDescription())
+                        .deadline(each.getDeadline().toString())
                         .build())
                 .toList();
 

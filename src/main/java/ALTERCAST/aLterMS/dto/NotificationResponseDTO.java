@@ -18,6 +18,7 @@ public class NotificationResponseDTO {
         String title;
         String description;
         String createdAt;
+        String updatedAt;
         List<String> fileUrls;
     }
 

@@ -20,6 +20,7 @@ public class AssignmentResponseDTO {
         String deadline;
         String point;
         String createdAt;
+        String updatedAt;
         List<String> fileUrls;
 
     }

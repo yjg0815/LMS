@@ -14,6 +14,7 @@ public class NotificationConverter {
                 .title(notification.getTitle())
                 .description(notification.getDescription())
                 .createdAt(notification.getCreatedAt().toString())
+                .updatedAt(notification.getUpdatedAt().toString())
                 .writer(notification.getWriter())
                 .fileUrls(notification.getNotificationFiles().stream().map(NotificationFile::getFileUrl).toList())
                 .build();

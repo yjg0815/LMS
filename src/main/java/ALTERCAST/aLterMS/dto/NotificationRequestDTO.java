@@ -1,5 +1,6 @@
 package ALTERCAST.aLterMS.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,7 +12,11 @@ public class NotificationRequestDTO {
 
     @Getter
     public static class createNotiRequestDTO {
+
+        @NotBlank
         String title;
+
+        @NotBlank
         String description;
     }
 

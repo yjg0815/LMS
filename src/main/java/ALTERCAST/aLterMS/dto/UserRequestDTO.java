@@ -18,7 +18,7 @@ public class UserRequestDTO {
         String userId;
 
         @NotBlank
-        @Size(min = 5)
+        @Size(min = 4)
         String password;
 
         String email;
@@ -36,12 +36,15 @@ public class UserRequestDTO {
     @Getter
     public static class UpdateInfoDto {
 
+        @NotBlank
         @Size(min = 1, max = 6)
         String name;
 
+        @NotBlank
         @Size(min = 5, max = 20)
         String userId;
 
+        @NotBlank
         @Size(min = 4)
         String password;
 

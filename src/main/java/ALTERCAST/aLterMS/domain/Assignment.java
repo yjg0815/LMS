@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,5 +46,13 @@ public class Assignment extends BaseEntity {
         }
         this.section = section;
         section.getAssignments().add(this);
+    }
+
+    public void update(String title, String description, String deadline, String point) {
+        this.title = title;
+        this.description = description;
+        this.deadline = LocalDateTime.parse(deadline,  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        this.point = Integer.parseInt(point);
+
     }
 }

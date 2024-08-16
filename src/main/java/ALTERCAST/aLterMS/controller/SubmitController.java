@@ -25,10 +25,11 @@ import java.util.List;
 public class SubmitController {
     private final SubmitService submitService;
 
-    @PostMapping(value = "assignments/{assignId}/submits", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{secId}/assignments/{assignId}/submits", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "제출물을 올린다.", description = "학생만 가능, 과제 여러번 제출 불가, 파일 여러개 가능")
-    @PreAuthorize("@PrivilegeEvaluator.hasPrivilege(#assignId, @Privilege.STUDENT)")
-    public ApiResponse<SubmitResponseDTO.createSubmitResultDTO> createSubmit(@PathVariable(value = "assignId") Long assignId,
+    @PreAuthorize("@PrivilegeEvaluator.hasPrivilege(#secId, @Privilege.STUDENT)")
+    public ApiResponse<SubmitResponseDTO.createSubmitResultDTO> createSubmit(@PathVariable(value = "secId") Long secId,
+                                                                             @PathVariable(value = "assignId") Long assignId,
                                                                              @RequestPart(value = "request", required = false) @Valid SubmitRequestDTO.createSubmitRequestDTO request,
                                                                              @RequestPart(value = "files", required = false) @Valid List<MultipartFile> files) throws IOException {
         Submit submit = submitService.createSubmit(assignId, request);

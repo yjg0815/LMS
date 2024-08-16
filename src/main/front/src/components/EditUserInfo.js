@@ -9,6 +9,7 @@ function EditUserInfo({userInfo, onSave, onCancel}) {
         email: userInfo.email,
         phone: userInfo.phone,
         deptName: userInfo.deptName,
+        password: userInfo.password,
     });
     const [error, setError] = useState(null);
 
@@ -64,6 +65,15 @@ function EditUserInfo({userInfo, onSave, onCancel}) {
                         type="text"
                         name="deptName"
                         value={formData.deptName}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
                         onChange={handleChange}
                     />
                 </div>

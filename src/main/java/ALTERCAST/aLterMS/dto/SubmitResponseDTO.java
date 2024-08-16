@@ -25,6 +25,7 @@ public class SubmitResponseDTO {
     public static class getSubmitResultDTO {
         String writer;
         String createdAt;
+        String updatedAt;
         String comment;
         List<String> fileUrls;
     }

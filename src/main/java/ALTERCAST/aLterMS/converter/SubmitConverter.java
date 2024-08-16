@@ -39,6 +39,7 @@ public class SubmitConverter {
         return SubmitResponseDTO.getSubmitResultDTO.builder()
                 .comment(submit.getComment())
                 .createdAt(submit.getCreatedAt().toString())
+                .updatedAt(submit.getUpdatedAt().toString())
                 .writer(submit.getWriter())
                 .fileUrls(submit.getSubmitFiles().stream().map(SubmitFile::getFileUrl).toList())
                 .build();

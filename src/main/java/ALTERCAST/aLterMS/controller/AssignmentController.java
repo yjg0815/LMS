@@ -28,7 +28,7 @@ public class AssignmentController {
     @GetMapping("/{assignId}")
     @Operation(summary = "과제 정보")
     public ApiResponse<AssignmentResponseDTO.getAssignInfoDTO> getAssignmentDetail(@PathVariable(value = "assignId") Long assignId) {
-        return ApiResponse.of(SuccessStatus.GET_SECTION_ASSIGNMENTS, AssignmentConverter.toGetAssignInfoDTO(assignmentService.getAssignInfo(assignId)));
+        return ApiResponse.of(SuccessStatus.GET_ASSIGNMENT, AssignmentConverter.toGetAssignInfoDTO(assignmentService.getAssignInfo(assignId)));
     }
 
     @PostMapping(value = "/{secId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -40,5 +40,22 @@ public class AssignmentController {
         Assignment assignment = assignmentService.createAssignment(secId, request);
         assignmentService.saveAssignmentFiles(assignment, files);
         return ApiResponse.of(SuccessStatus.CREATE_ASSIGNMENT, AssignmentConverter.toCreateAssignResponseDTO(assignment));
+    }
+
+    @PutMapping(value = "/{assignId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "과제 수정", description = "교수가 올린 과제를 수정한다, 작성자만 가능")
+    public ApiResponse<AssignmentResponseDTO.createAssignResponseDTO> updateAssignment(@PathVariable(value = "assignId") Long assignId,
+                                                                                       @RequestPart(value = "request", required = false) @Valid AssignmentRequestDTO.createAssignRequestDTO request,
+                                                                                       @RequestPart(value = "files", required = false) @Valid List<MultipartFile> files) throws IOException {
+        Assignment assignment = assignmentService.updateAssignment(assignId, request);
+        assignmentService.updateAssignmentFiles(assignment, files);
+        return ApiResponse.of(SuccessStatus.UPDATE_ASSIGNMENT, AssignmentConverter.toCreateAssignResponseDTO(assignment));
+    }
+
+    @DeleteMapping("/{assignId}")
+    @Operation(summary = "과제 삭제", description = "교수가 올린 과제를 삭제한다, 작성자만 가능")
+    public ApiResponse<Void> deleteAssignment(@PathVariable(value = "assignId") Long assignId) {
+        assignmentService.deleteAssignment(assignId);
+        return ApiResponse.ofNoting(SuccessStatus.DELETE_ASSIGNMENT);
     }
 }

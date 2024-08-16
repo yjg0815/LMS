@@ -21,6 +21,8 @@ public class AssignmentConverter {
                 .deadline(assignment.getDeadline().toString())
                 .fileUrls(assignment.getAssignmentFiles().stream().map(AssignmentFile::getFileUrl).toList())
                 .writer(assignment.getWriter())
+                .createdAt(assignment.getCreatedAt().toString())
+                .updatedAt(assignment.getUpdatedAt().toString())
                 .build();
     }
 

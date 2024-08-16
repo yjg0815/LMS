@@ -58,6 +58,41 @@ public class NotificationService {
     }
 
     @Transactional
+    public Notification updateNotification(Long notiId, NotificationRequestDTO.createNotiRequestDTO request) {
+        if (notificationRepository.findById(notiId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_NOTIFICATION);
+        }
+
+        Notification notification = notificationRepository.findById(notiId).get();
+
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (userId.equals(notification.getWriter())) {
+            throw new TempHandler(ErrorStatus._FORBIDDEN);
+            // 작성자 아님
+        }
+
+        notification.update(request.getTitle(), request.getDescription());
+        return notification;
+    }
+
+    @Transactional
+    public void deleteNotification(Long notiId) {
+        if (notificationRepository.findById(notiId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_NOTIFICATION);
+        }
+        Notification notification = notificationRepository.findById(notiId).get();
+
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (userId.equals(notification.getWriter())) {
+            throw new TempHandler(ErrorStatus._FORBIDDEN);
+            // 작성자 아님
+        }
+
+        notificationRepository.deleteById(notiId);
+    }
+
+
+    @Transactional
     public void saveNotificationFiles(Notification notification, List<MultipartFile> files) throws IOException {
         if (files != null) {
             for (MultipartFile file : files) {
@@ -79,5 +114,11 @@ public class NotificationService {
             fileService.deleteFiles(notiId, file.getFileUrl());
         }
         notificationFileRepository.deleteByNotificationId(notiId);
+    }
+
+    @Transactional
+    public void updateNotificationFiles(Notification notification, List<MultipartFile> files) throws IOException {
+        deleteNotificationFiles(notification.getId());
+        saveNotificationFiles(notification, files);
     }
 }

@@ -59,15 +59,34 @@ public class AssignmentService {
     }
 
     @Transactional
+    public Assignment updateAssignment(Long assignId, AssignmentRequestDTO.createAssignRequestDTO request) {
+        if (assignmentRepository.findById(assignId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_ASSIGNMENT);
+        }
+
+        Assignment assignment = assignmentRepository.findById(assignId).get();
+
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (userId.equals(assignment.getWriter())) {
+            throw new TempHandler(ErrorStatus._FORBIDDEN);
+        }
+        assignment.update(request.getTitle(), request.getDescription(), request.getDeadline(), request.getPoint());
+
+        return assignment;
+    }
+
+    @Transactional
+    public void deleteAssignment(Long assignId) {
+        if (assignmentRepository.findById(assignId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_ASSIGNMENT);
+        }
+
+        assignmentRepository.deleteById(assignId);
+    }
+
+    @Transactional
     public void saveAssignmentFiles(Assignment assignment, List<MultipartFile> files) throws IOException {
-//        if (files.getFiles() != null) {
-//            for (MultipartFile file : files.getFiles()) {
-//                String fileName = fileService.saveFiles(file);
-//                AssignmentFile assignmentFile = AssignmentConverter.toAssignmentFile(assignment, "/saveFiles" + fileName);
-//
-//                assignmentFileRepository.save(assignmentFile);
-//            }
-//        }
+
         if (files != null) {
             for (MultipartFile file : files) {
                 String fileName = fileService.saveFiles(file);
@@ -77,11 +96,15 @@ public class AssignmentService {
 
             }
         }
+    }
 
+    @Transactional
+    public void updateAssignmentFiles(Assignment assignment, List<MultipartFile> files) throws IOException {
+        deleteAssignmentFiles(assignment.getId());
+        saveAssignmentFiles(assignment, files);
     }
 
     // 과제가 삭제 됐을 때, 파일 같이 날리는거
-    // todo : 파일 하나 씩 날리는건 update 로직에서 하자
     @Transactional
     public void deleteAssignmentFiles(Long assignId) {
         List<AssignmentFile> assignmentFiles = assignmentFileRepository.findByAssignmentId(assignId);
