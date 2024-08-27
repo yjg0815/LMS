@@ -7,7 +7,7 @@ import {
     deleteAssignment,
     getUserRoles,
     getAllSubmit,
-    getSubmitInAssignment, getSubmitDetail
+    getSubmitInAssignment, getSubmitDetail, getHasSubmitted
 } from '../api/userApi'; // Ensure getSubmitInAssignment is imported
 import { format } from 'date-fns';
 import { enUS } from 'date-fns/locale';
@@ -35,6 +35,7 @@ function AssignmentDetailPage() {
     const [roles, setRoles] = useState([]);
     const [submits, setSubmits] = useState([]);
     const [submit, setSubmit] = useState(''); // Null initially
+    const [hasSubmitted, setHasSubmitted] = useState('');
 
     const secId = state?.secId;
 
@@ -73,10 +74,24 @@ function AssignmentDetailPage() {
             }
         };
 
+        const fetchUserState = async () => {
+            try {
+                const userState = await getHasSubmitted(assignId);
+                setHasSubmitted(userState.data.result.userState);
+                console.log(hasSubmitted);
+            } catch (err){
+                console.error('Error fetching user state:', err);
+                setError('Failed to fetch user state.');
+            }
+        }
+
         if (user) {
             fetchAssignment();
             fetchUserRoles();
+            fetchUserState();
         }
+
+        console.log(hasSubmitted);
     }, [assignId, user, secId]);
 
     const handleFileChange = (e) => {
@@ -164,8 +179,14 @@ function AssignmentDetailPage() {
         }
     };
 
-    const handleSubmitAssignment = () => {
-        navigate(`/${secId}/assignments/${assignId}/submit`, {state: {secId}});
+    const handleSubmitAssignment = async () => {
+        const userState = await getHasSubmitted(assignId);
+        if(userState.data.result.userState === 'false'){
+            navigate(`/${secId}/assignments/${assignId}/submit`, {state: {secId}});
+        }else {
+            alert('already done');
+        }
+
     };
 
     // 강사가 학생 제출물을 조회하는 함수
@@ -183,9 +204,15 @@ function AssignmentDetailPage() {
     // 학생이 본인거 조회
     const handleViewMySubmit = async () => {
         try {
-            const response = await getSubmitInAssignment(secId, assignId);
-            setSubmit(response.data.result);
-            navigate(`/assignments/${assignId}/submits/${response.data.result.submitId}`, { state: { secId } });
+            const userState = await getHasSubmitted(assignId);
+            if(userState.data.result.userState === 'true'){
+                const response = await getSubmitInAssignment(secId, assignId);
+                setSubmit(response.data.result);
+                navigate(`/assignments/${assignId}/submits/${response.data.result.submitId}`, { state: { secId } });
+            }else{
+                alert('no submit')
+            }
+
         } catch (err) {
             console.error('Error fetching submissions:', err);
             setError('Failed to fetch submissions.');

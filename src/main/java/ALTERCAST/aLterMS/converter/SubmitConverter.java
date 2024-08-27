@@ -58,7 +58,12 @@ public class SubmitConverter {
     public static SubmitResponseDTO.getSubmitInAssignmentDTO toGetSubmitInAssignmentDTO(Submit submit) {
         return SubmitResponseDTO.getSubmitInAssignmentDTO.builder()
                 .submitId(submit.getId())
-                .userState(String.valueOf(submit.isState()))
+                .build();
+    }
+
+    public static SubmitResponseDTO.getHasSubmittedDTO toGetHasSubmittedDTO(String check) {
+        return SubmitResponseDTO.getHasSubmittedDTO.builder()
+                .userState(check)
                 .build();
     }
 }

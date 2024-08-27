@@ -145,13 +145,26 @@ public class SubmitService {
 
         Submit submit = submitRepository.findSubmitByAssignIdAndUserId(assignId, userRepository.findByUserId(userId).get().getId());
 
-        if (submit != null) {
-            if (userId.equals(submitRepository.findById(submit.getId()).get().getWriter())) {
-                throw new TempHandler(ErrorStatus._FORBIDDEN);
-            }
+        if (userId.equals(submitRepository.findById(submit.getId()).get().getWriter())) {
+            throw new TempHandler(ErrorStatus._FORBIDDEN);
+        }
+        return submit;
+    }
 
+    public String getHasSubmitted(Long assignId) {
+        if (assignmentRepository.findById(assignId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_ASSIGNMENT);
         }
 
-        return submit;
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Submit submit = submitRepository.findSubmitByAssignIdAndUserId(assignId, userRepository.findByUserId(userId).get().getId());
+
+        if (submit == null) {
+            return "false";
+        } else {
+            return "true";
+        }
+
     }
 }

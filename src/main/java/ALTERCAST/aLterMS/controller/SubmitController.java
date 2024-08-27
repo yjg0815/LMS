@@ -62,7 +62,7 @@ public class SubmitController {
     @DeleteMapping("assignments/{assignId}/submits/{submitId}")
     @Operation(summary = "제출물 파일 삭제", description = "본인만 가능")
     public ApiResponse<Void> deleteSubmit(@PathVariable(value = "assignId") Long assignId,
-                                          @PathVariable(value = "submitId") Long submitId){
+                                          @PathVariable(value = "submitId") Long submitId) {
 
         submitService.deleteSubmit(assignId, submitId);
         submitService.deleteSubmitFiles(submitId);
@@ -82,9 +82,15 @@ public class SubmitController {
     @Operation(summary = "해당 제출물 확인", description = "학생은 본인 것만, 과제 하나당 제출은 한 번")
     @PreAuthorize("@PrivilegeEvaluator.hasPrivilege(#secId, @Privilege.STUDENT)")
     public ApiResponse<SubmitResponseDTO.getSubmitInAssignmentDTO> getSubmitInAssignment(@PathVariable(value = "secId") Long secId,
-                                                                                      @PathVariable(value = "assignId") Long assignId) {
+                                                                                         @PathVariable(value = "assignId") Long assignId) {
         Submit submit = submitService.getSubmitInAssignment(assignId);
         return ApiResponse.of(SuccessStatus.GET_SUBMIT, SubmitConverter.toGetSubmitInAssignmentDTO(submit));
     }
 
+    @GetMapping("assignments/{assignId}/submit-check")
+    @Operation(summary = "해당 과제 해당 유저의 제출 여부")
+    public ApiResponse<SubmitResponseDTO.getHasSubmittedDTO> getHasSubmitted(@PathVariable(value = "assignId") Long assignId) {
+        String check = submitService.getHasSubmitted(assignId);
+        return ApiResponse.of(SuccessStatus.GET_SUBMIT_STATE, SubmitConverter.toGetHasSubmittedDTO(check));
+    }
 }

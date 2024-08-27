@@ -53,7 +53,8 @@ public enum SuccessStatus implements BaseCode {
     CREATE_SUBMIT(HttpStatus.CREATED, "SUBMIT2001", "제출물 작성 성공"),
     DELETE_SUBMIT(HttpStatus.OK, "SUBMIT2002", "제출물 삭제 성공"),
     GET_SUBMIT(HttpStatus.OK, "SUBMTI2003", "제출물 정보 조회 완료"),
-    UPDATE_SUBMIT(HttpStatus.OK, "SUBMIT2004", "제출물 수정 완료")
+    UPDATE_SUBMIT(HttpStatus.OK, "SUBMIT2004", "제출물 수정 완료"),
+    GET_SUBMIT_STATE(HttpStatus.OK, "SUBMIT2005", "제출 여부 확인 완료")
     ;
 
 

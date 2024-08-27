@@ -133,3 +133,7 @@ export const getAllSubmit = (secId, assignId) => {
 export const getSubmitInAssignment = (secId, assignId) => {
     return apiClient.get(`${secId}/assignments/${assignId}`)
 }
+
+export const getHasSubmitted = (assignId)=> {
+    return apiClient.get(`assignments/${assignId}/submit-check`)
+}

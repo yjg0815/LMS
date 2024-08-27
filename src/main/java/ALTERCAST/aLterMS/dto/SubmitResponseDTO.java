@@ -45,6 +45,13 @@ public class SubmitResponseDTO {
     @AllArgsConstructor
     public static class getSubmitInAssignmentDTO {
         Long submitId;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class getHasSubmittedDTO {
         String userState;
     }
 }
