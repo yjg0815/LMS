@@ -40,6 +40,10 @@ public class Assignment extends BaseEntity {
     @JoinColumn(name = "sec_id")
     private Section section;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "assignment", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private List<Submit> submits = new ArrayList<>();
+
     public void setSection(Section section) {
         if (this.section != null) {
             this.section.getAssignments().remove(this);

@@ -7,6 +7,7 @@ import ALTERCAST.aLterMS.domain.User;
 import ALTERCAST.aLterMS.dto.SubmitRequestDTO;
 import ALTERCAST.aLterMS.dto.SubmitResponseDTO;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.reflections.util.ConfigurationBuilder.build;
@@ -42,6 +43,22 @@ public class SubmitConverter {
                 .updatedAt(submit.getUpdatedAt().toString())
                 .writer(submit.getWriter())
                 .fileUrls(submit.getSubmitFiles().stream().map(SubmitFile::getFileUrl).toList())
+                .build();
+    }
+
+    public static List<SubmitResponseDTO.getAllSubmitResponseDTO> toGetAllSubmitResponseDTO(List<Submit> submitList) {
+        return submitList.stream()
+                .map(each -> SubmitResponseDTO.getAllSubmitResponseDTO.builder()
+                        .submitId(each.getId())
+                        .writerInfo(each.getUser().getDeptName() + " " + each.getUser().getName())
+                        .build())
+                .toList();
+    }
+
+    public static SubmitResponseDTO.getSubmitInAssignmentDTO toGetSubmitInAssignmentDTO(Submit submit) {
+        return SubmitResponseDTO.getSubmitInAssignmentDTO.builder()
+                .submitId(submit.getId())
+                .userState(String.valueOf(submit.isState()))
                 .build();
     }
 }

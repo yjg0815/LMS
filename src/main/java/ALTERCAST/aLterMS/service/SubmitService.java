@@ -4,10 +4,7 @@ import ALTERCAST.aLterMS.apiPayLoad.code.status.ErrorStatus;
 import ALTERCAST.aLterMS.apiPayLoad.exception.handler.TempHandler;
 import ALTERCAST.aLterMS.converter.AssignmentConverter;
 import ALTERCAST.aLterMS.converter.SubmitConverter;
-import ALTERCAST.aLterMS.domain.Assignment;
-import ALTERCAST.aLterMS.domain.AssignmentFile;
-import ALTERCAST.aLterMS.domain.Submit;
-import ALTERCAST.aLterMS.domain.SubmitFile;
+import ALTERCAST.aLterMS.domain.*;
 import ALTERCAST.aLterMS.dto.AssignmentRequestDTO;
 import ALTERCAST.aLterMS.dto.SubmitRequestDTO;
 import ALTERCAST.aLterMS.repository.AssignmentRepository;
@@ -46,6 +43,7 @@ public class SubmitService {
         }
         Submit submit = SubmitConverter.toSubmit(request, assignmentRepository.findById(assignId).get(),userRepository.findByUserId(userId).get());
 
+        submit.setState(true);
         return submitRepository.save(submit);
     }
 
@@ -126,4 +124,34 @@ public class SubmitService {
         submitFileRepository.deleteBySubmitId(submitId);
     }
 
+    public List<Submit> getSubmitList(Long assignId) {
+        if (assignmentRepository.findById(assignId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_ASSIGNMENT);
+        }
+
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (userId.equals(assignmentRepository.findById(assignId).get().getWriter())) {
+            throw new TempHandler(ErrorStatus._FORBIDDEN);
+        }
+
+        return submitRepository.findByAssignId(assignId);
+    }
+
+    public Submit getSubmitInAssignment(Long assignId) {
+        if (assignmentRepository.findById(assignId).isEmpty()) {
+            throw new TempHandler(ErrorStatus.NOT_EXIST_ASSIGNMENT);
+        }
+        userId = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Submit submit = submitRepository.findSubmitByAssignIdAndUserId(assignId, userRepository.findByUserId(userId).get().getId());
+
+        if (submit != null) {
+            if (userId.equals(submitRepository.findById(submit.getId()).get().getWriter())) {
+                throw new TempHandler(ErrorStatus._FORBIDDEN);
+            }
+
+        }
+
+        return submit;
+    }
 }

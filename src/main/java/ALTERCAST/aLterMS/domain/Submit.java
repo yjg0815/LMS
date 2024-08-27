@@ -33,7 +33,7 @@ public class Submit extends BaseEntity {
     @OneToMany(mappedBy = "submit", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<SubmitFile> submitFiles = new ArrayList<>();
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assign_id")
     private Assignment assignment;
 

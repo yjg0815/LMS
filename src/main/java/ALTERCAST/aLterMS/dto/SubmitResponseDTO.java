@@ -30,4 +30,21 @@ public class SubmitResponseDTO {
         List<String> fileUrls;
     }
 
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class getAllSubmitResponseDTO {
+        Long submitId;
+        String writerInfo;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class getSubmitInAssignmentDTO {
+        Long submitId;
+        String userState;
+    }
 }

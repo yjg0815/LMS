@@ -55,7 +55,6 @@ public class PrivilegeEvaluator {
         }
         return false;
     }
-
     /**
      * 유저가 해당 프로젝트의 생성자인지 확인
      */

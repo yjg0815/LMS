@@ -13,6 +13,8 @@ import NotificationDetailPage from "./components/NotificationDetailPage";
 import AssignmentDetailPage from "./components/AssignmentDetailPage";
 import CreateNotificationPage from "./components/CreateNotificationPage";
 import CreateAssignmentPage from "./components/CreateAssignmentPage";
+import SubmitAssignmentPage from "./components/SubmitAssignmentPage";
+import SubmitDetailPage from "./components/SubmitDetailPage";
 
 function App() {
     return (
@@ -32,6 +34,8 @@ function App() {
                 <Route path="/assignments/:assignId" element={<AssignmentDetailPage/>}/>
                 <Route path="/sections/:secId/notifications/creation" element={<CreateNotificationPage/>}/>
                 <Route path="/sections/:secId/assignments/creation" element={<CreateAssignmentPage/>}/>
+                <Route path="/:secId/assignments/:assignId/submit" element={<SubmitAssignmentPage />} />
+                <Route path= "assignments/:assignId/submits/:submitId" element ={<SubmitDetailPage/>} />
             </Routes>
         </Router>
     );

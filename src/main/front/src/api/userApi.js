@@ -110,3 +110,26 @@ export const updateAssignment = async (assignId, formData) => {
 export const deleteAssignment = async (assignId) => {
     return apiClient.delete(`assignments/${assignId}`)
 }
+
+export const createSubmit = async (secId, assignId, formData) =>{
+    return apiClient.post(`${secId}/assignments/${assignId}/submits`, formData)
+}
+
+export const getSubmitDetail = (assignId, submitId) => {
+    return apiClient.get(`assignments/${assignId}/submits/${submitId}`)
+}
+
+export const updateSubmit = async (assignId, submitId, formData) => {
+    return apiClient.put(`assignments/${assignId}/submits/${submitId}`, formData)
+}
+export const deleteSubmit = async (assignId, submitId) => {
+    return apiClient.delete(`assignments/${assignId}/submits/${submitId}`)
+}
+
+export const getAllSubmit = (secId, assignId) => {
+    return apiClient.get(`${secId}/assignments-all/${assignId}`)
+}
+
+export const getSubmitInAssignment = (secId, assignId) => {
+    return apiClient.get(`${secId}/assignments/${assignId}`)
+}

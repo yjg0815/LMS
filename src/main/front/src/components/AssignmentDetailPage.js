@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
-import { downloadFile, getAssignmentDetail, updateAssignment, deleteAssignment } from '../api/userApi'; // deleteAssignment 추가
+import {
+    downloadFile,
+    getAssignmentDetail,
+    updateAssignment,
+    deleteAssignment,
+    getUserRoles,
+    getAllSubmit,
+    getSubmitInAssignment, getSubmitDetail
+} from '../api/userApi'; // Ensure getSubmitInAssignment is imported
 import { format } from 'date-fns';
 import { enUS } from 'date-fns/locale';
 import { useCurrentUser } from './useCurrentUser';
@@ -10,6 +18,7 @@ import '../styles/Modal.css'; // Import external CSS for modal
 
 function AssignmentDetailPage() {
     const { assignId } = useParams();
+    const location = useLocation();
     const { state } = useLocation(); // Retrieve state passed from previous page
     const navigate = useNavigate();
     const { user, loading: userLoading, error: userError } = useCurrentUser();
@@ -23,16 +32,14 @@ function AssignmentDetailPage() {
     const [editDeadline, setEditDeadline] = useState(new Date());
     const [editPoint, setEditPoint] = useState('');
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false); // 삭제 확인 모달 상태
+    const [roles, setRoles] = useState([]);
+    const [submits, setSubmits] = useState([]);
+    const [submit, setSubmit] = useState(''); // Null initially
+
     const secId = state?.secId;
 
     useEffect(() => {
-        console.log("Current user:", user);
-        if (userError) {
-            console.error("Error fetching user info:", userError);
-        }
-    }, [user, userError]);
 
-    useEffect(() => {
         const fetchAssignment = async () => {
             try {
                 const response = await getAssignmentDetail(assignId);
@@ -51,10 +58,26 @@ function AssignmentDetailPage() {
             }
         };
 
+        const fetchUserRoles = async () => {
+            try {
+                const userRoles = await getUserRoles();
+                if (Array.isArray(userRoles)) {
+                    setRoles(userRoles);
+                } else {
+                    console.error('Unexpected response format:', userRoles);
+                    setError('Failed to fetch user roles.');
+                }
+            } catch (err) {
+                console.error('Error fetching user roles:', err);
+                setError('Failed to fetch user roles.');
+            }
+        };
+
         if (user) {
             fetchAssignment();
+            fetchUserRoles();
         }
-    }, [assignId, user]);
+    }, [assignId, user, secId]);
 
     const handleFileChange = (e) => {
         setEditFiles([...e.target.files]);
@@ -122,12 +145,10 @@ function AssignmentDetailPage() {
         }
     };
 
-    // 삭제 모달 열기
     const openDeleteModal = () => {
         setIsDeleteModalOpen(true);
     };
 
-    // 삭제 모달 닫기
     const closeDeleteModal = () => {
         setIsDeleteModalOpen(false);
     };
@@ -136,12 +157,43 @@ function AssignmentDetailPage() {
         try {
             await deleteAssignment(assignId);
             alert('Assignment deleted successfully.');
-            navigate(`/sections/${secId}/assignments`); // 삭제 후 과제 목록으로 리다이렉트
+            navigate(`/sections/${secId}/assignments`);
         } catch (err) {
             console.error('Error deleting assignment:', err);
             setError('Failed to delete assignment.');
         }
     };
+
+    const handleSubmitAssignment = () => {
+        navigate(`/${secId}/assignments/${assignId}/submit`, {state: {secId}});
+    };
+
+    // 강사가 학생 제출물을 조회하는 함수
+    const handleViewSubmits = async () => {
+        try {
+            const response = await getAllSubmit(secId, assignId);
+            setSubmits(response.data.result);
+
+        } catch (err) {
+            console.error(':Error fetching submissions', err);
+            setError('Failed to fetch submissions.');
+        }
+    };
+
+    // 학생이 본인거 조회
+    const handleViewMySubmit = async () => {
+        try {
+            const response = await getSubmitInAssignment(secId, assignId);
+            setSubmit(response.data.result);
+            navigate(`/assignments/${assignId}/submits/${response.data.result.submitId}`, { state: { secId } });
+        } catch (err) {
+            console.error('Error fetching submissions:', err);
+            setError('Failed to fetch submissions.');
+        }
+    };
+
+    const isInstructor = roles.some(role => role.startsWith('ROLE_INSTRUCTOR'));
+    const isStudent = roles.some(role => role.startsWith('ROLE_STUDENT'));
 
     if (userLoading) return <p>Loading user info...</p>;
 
@@ -233,6 +285,27 @@ function AssignmentDetailPage() {
                                     <button onClick={openDeleteModal}>Delete Assignment</button>
                                 </>
                             )}
+                            {isInstructor && (
+                                <>
+                                    <button onClick={handleViewSubmits}>View Submissions</button>
+                                    {submits.length > 0 && (
+                                        <ul>
+                                            {submits.map((submit) => (
+                                                <li key={submit.submitId}>
+                                                    <span>{submit.writerInfo}</span>
+                                                    <button onClick={() => navigate(`/assignments/${assignId}/submits/${submit.submitId}`, { state: { secId } })}>View Details</button>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    )}
+                                </>
+                            )}
+                            {isStudent && (
+                                <>
+                                    <button onClick={handleViewMySubmit}>View My Submission</button>
+                                    <button onClick={handleSubmitAssignment}>Submit Assignment</button>
+                                </>
+                            )}
                             <button onClick={handleBackToAssignments}>Back to Assignments</button>
                         </div>
                     )}
@@ -241,7 +314,6 @@ function AssignmentDetailPage() {
                 <p>Loading assignment details...</p>
             )}
 
-            {/* 삭제 확인 모달 */}
             {isDeleteModalOpen && (
                 <div className="modal-overlay">
                     <div className="modal">
