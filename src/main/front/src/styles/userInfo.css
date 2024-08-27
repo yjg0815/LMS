@@ -1,0 +1,24 @@
+/* src/styles/userInfo.css */
+.user-info-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.user-info-container h2 {
+    margin-bottom: 20px;
+}
+
+.user-info-container button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.user-info-container button:hover {
+    background-color: #0056b3;
+}

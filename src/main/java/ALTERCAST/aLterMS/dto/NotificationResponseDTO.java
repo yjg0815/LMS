@@ -1,0 +1,33 @@
+package ALTERCAST.aLterMS.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+public class NotificationResponseDTO {
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class getNotiInfoDTO {
+        String writer;
+        String title;
+        String description;
+        String createdAt;
+        String updatedAt;
+        List<String> fileUrls;
+    }
+
+    @Builder
+    @Getter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class createNotiResponseDTO {
+        Long notiId;
+    }
+
+}

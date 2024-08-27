@@ -12,12 +12,12 @@ public enum ErrorStatus implements BaseErrorCode {
     /**
      * ENUM(Http, code, message)
      * enum 상수에 추가적으로 멤버를 줘서 데이터 관리 용이하게
-     *
+     * <p>
      * 1. common 에러는 COMMON000 으로 둔다. <- 잘 안쓰지만 마땅하지 않을 때 사용
      * 2. 관련된 경우마다 code에 명시적으로 표현한다.
-     * 	- 예를 들어 멤버 관련이면 MEMBER001 이런 식으로
+     * - 예를 들어 멤버 관련이면 MEMBER001 이런 식으로
      * 3. 2번에 이어서 4000번대를 붙인다. 서버측 잘못은 그냥 COMMON 에러의 서버 에러를 쓰면 됨.
-     * 	- MEMBER400_1 아니면 MEMBER4001 이런 식으로
+     * - MEMBER400_1 아니면 MEMBER4001 이런 식으로
      */
 
     // 일반적인 응답
@@ -35,8 +35,21 @@ public enum ErrorStatus implements BaseErrorCode {
     // 게시글 관련 에러
     POST_NOT_FOUND(HttpStatus.NOT_FOUND, "POST4004", "해당 게시글을 찾을 수 없습니다."),
     // For test
-    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트")
-    ;
+    TEMP_EXCEPTION(HttpStatus.BAD_REQUEST, "TEMP4001", "이거는 테스트"),
+
+    //User
+    ALREADY_EXIST_ID(HttpStatus.BAD_REQUEST, "USER4001", "이미 존재하는 아이디 입니다."),
+    NOT_EXIST_USER(HttpStatus.NOT_FOUND, "USER4002", "존재하지 않는 회원입니다."),
+
+    //Section
+    NOT_EXIST_SECTION(HttpStatus.NOT_FOUND, "SEC4001", "존재하지 않는 클래스 입니다."),
+    NOT_EXIST_NOTIFICATION(HttpStatus.NOT_FOUND, "SEC4002", "존재하지 않는 공지 입니다."),
+    NOT_EXIST_ASSIGNMENT(HttpStatus.NOT_FOUND, "SEC4003", "존재하지 않는 과제 입니다."),
+    NOT_EXIST_LEARNING(HttpStatus.NOT_FOUND, "SEC4004", "존재하지 않는 주차 입니다."),
+
+    //Submit
+    NOT_EXIST_SUBMIT(HttpStatus.NOT_FOUND, "SUB4001", "존재하지 않는 제출물입니다.");
+
 
 
     private final HttpStatus httpStatus;

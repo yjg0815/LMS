@@ -1,47 +1,57 @@
-#spring:
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3305/LMS?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-#    username: jin
-#    password: 1234
-#
-#
-#  jpa:
-#    open-in-view: true
-#    hibernate:
-#      ddl-auto: update
-#    show-sql: true
-#    properties:
-#      hibernate.format_sql: true
-#      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
-#
-#
-#logging:
-#  level:
-#    org.hibernate.SQL: debug
-
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
   datasource:
-    url: jdbc:h2:~/aLterMS
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-        #        show_sql: true
-        dialect: org.hibernate.dialect.H2Dialect
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3305/LMS?useSSL=false&serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: jin
+    password: 1234
 
-        format_sql: true
-logging.level:
-  org.hibernate.SQL: debug
-  org.hibernate.type: trace
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB
+
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+      dialect: org.hibernate.dialect.MySQL8InnoDBDialect
+  mvc:
+    path match:
+      matching-strategy: ant_path_matcher
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+
+#spring:
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
+#  datasource:
+#    url: jdbc:h2:~/aLterMS
+#    username: sa
+#    password:
+#    driver-class-name: org.h2.Driver
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    properties:
+#      hibernate:
+#        #        show_sql: true
+#        dialect: org.hibernate.dialect.H2Dialect
+#
+#        format_sql: true
+#  mvc :
+#    path match:
+#      matching-strategy: ant_path_matcher
+#logging.level:
+#  org.hibernate.SQL: debug
+#  org.hibernate.type: trace
 
 auth:
   jwt:

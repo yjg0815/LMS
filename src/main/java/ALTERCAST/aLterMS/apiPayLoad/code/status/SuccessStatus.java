@@ -14,12 +14,49 @@ public enum SuccessStatus implements BaseCode {
     _CREATED(HttpStatus.CREATED, "AUTH201", "회원가입이 성공하였습니다."),
 
     // 게시물 관련 응답
-    POST_CREATED(HttpStatus.CREATED, "POST201", "게시글 작성이 성공하였습니다."),
-    POST_UPDATED(HttpStatus.OK, "POST200", "게시글 수정이 성공하였습니다."),
-    POST_DELETED(HttpStatus.OK, "POST200", "게시글 삭제가 성공하였습니다."),
-    POST_GET_LIST(HttpStatus.OK, "POST200", "게시글 목록 조회가 성공하였습니다."),
-    POST_GET_DETAIL(HttpStatus.OK, "POST200", "단일 게시글 조회가 성공하였습니다."),
+//    POST_CREATED(HttpStatus.CREATED, "POST201", "게시글 작성이 성공하였습니다."),
+//    POST_UPDATED(HttpStatus.OK, "POST200", "게시글 수정이 성공하였습니다."),
+//    POST_DELETED(HttpStatus.OK, "POST200", "게시글 삭제가 성공하였습니다."),
+//    POST_GET_LIST(HttpStatus.OK, "POST200", "게시글 목록 조회가 성공하였습니다."),
+//    POST_GET_DETAIL(HttpStatus.OK, "POST200", "단일 게시글 조회가 성공하였습니다."),
+
+    // 학생 요청 관련 응답
+    GET_USER_INFO(HttpStatus.OK, "USER2001", "유저 정보 조회 완료"),
+    UPDATE_USER_INFO(HttpStatus.OK, "USER2002", "유저 정보 수정 완료"),
+    DELETE_USER_INFO(HttpStatus.OK, "USER2003", "유저 탈퇴 완료"),
+    GET_ROLE_INFO(HttpStatus.OK, "USER2004", "유저 역할 조회 완료"),
+
+    //userSection
+    CREATE_USER_SECTION(HttpStatus.CREATED, "USERSEC2001", "강의 정보 입력 완료"),
+
+    //Section
+    GET_ALL_SECTIONS(HttpStatus.OK, "SEC2001", "전체 강의 조회 완료"),
+    GET_SECTION_NOTIFICATIONS(HttpStatus.OK, "SEC2002", "해당 강의 공지 조회 완료"),
+    GET_SECTION_ASSIGNMENTS(HttpStatus.OK, "SEC2003", "해당 강의 과제 조회 완료"),
+    GET_SECTION_LEARNINGS(HttpStatus.OK, "SEC2004", "해당 강의 주차 조회 완료"),
+
+
+    //Noti
+    CREATE_NOTIFICATION(HttpStatus.CREATED, "NOTI2001", "공지 작성 성공"),
+    UPDATE_NOTIFICATION(HttpStatus.OK, "NOTI2002", "공지 수정 성공"),
+    DELETE_NOTIFICATION(HttpStatus.OK, "NOTI2003", "공지 삭제 성공"),
+    GET_NOTIFICATION(HttpStatus.OK, "NOTI2004", "공지 조회 성공"),
+
+    //Assignment
+    CREATE_ASSIGNMENT(HttpStatus.CREATED, "ASSIGN2001", "과제 작성 성공"),
+    UPDATE_ASSIGNMENT(HttpStatus.OK, "ASSIGN2002", "과제 수정 성공"),
+    DELETE_ASSIGNMENT(HttpStatus.OK,"ASSIGN2003", "과제 삭제 성공"),
+    GET_ASSIGNMENT(HttpStatus.OK, "ASSIGN2004", "과제 조회 성공"),
+
+
+    //Submit
+    CREATE_SUBMIT(HttpStatus.CREATED, "SUBMIT2001", "제출물 작성 성공"),
+    DELETE_SUBMIT(HttpStatus.OK, "SUBMIT2002", "제출물 삭제 성공"),
+    GET_SUBMIT(HttpStatus.OK, "SUBMTI2003", "제출물 정보 조회 완료"),
+    UPDATE_SUBMIT(HttpStatus.OK, "SUBMIT2004", "제출물 수정 완료"),
+    GET_SUBMIT_STATE(HttpStatus.OK, "SUBMIT2005", "제출 여부 확인 완료")
     ;
+
 
     private final HttpStatus httpStatus;
 

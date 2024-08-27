@@ -1,0 +1,44 @@
+.select-role-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    max-width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.select-role-container h2, h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.select-role-container label {
+    display: block;
+    margin: 10px 0;
+}
+
+.select-role-container button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.select-role-container button:hover {
+    background-color: #45a049;
+}
+
+/* Add this to your CSS file */
+.message {
+    padding: 10px;
+    margin-bottom: 20px;
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+}
